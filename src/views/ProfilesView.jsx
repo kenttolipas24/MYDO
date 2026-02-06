@@ -1,93 +1,158 @@
-import React, { useState } from 'react';
-import { Search, UserPlus } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, UserPlus, Filter, Edit2, Eye, Calendar, MoreHorizontal } from 'lucide-react';
+import AddProfileModal from './AddProfileModal'; // Assuming they are in the same folder
 
 const ProfilesView = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  
-  const profiles = [
-    { id: 1, name: 'Juan dela Cruz', age: 22, status: 'Employed', purok: 'Purok 3' },
-    { id: 2, name: 'Maria Garcia', age: 19, status: 'Student', purok: 'Purok 1' },
-    { id: 3, name: 'Pedro Santos', age: 25, status: 'Unemployed', purok: 'Purok 5' },
-    { id: 4, name: 'Ana Reyes', age: 21, status: 'Student', purok: 'Purok 2' },
-    { id: 5, name: 'Jose Martinez', age: 23, status: 'Employed', purok: 'Purok 4' },
-  ];
+  const [openMenuId, setOpenMenuId] = useState(null); // Tracks which row's menu is open
+  const menuRef = useRef(null);
 
+  // Modal State Logic
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState('add');
+  const [selectedProfile, setSelectedProfile] = useState(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Your original profiles data
+  const [profiles, setProfiles] = useState([
+    { id: 1, skmtNo: '2026-001', firstName: 'Juan', middleName: '', lastName: 'dela Cruz', suffix: '', position: 'SK Chairperson', birthdate: '2004-05-12', age: 22, gender: 'Male', status: 'Active', purok: 'Purok 1' },
+    { id: 2, skmtNo: '2026-002', firstName: 'Maria', middleName: '', lastName: 'Garcia', suffix: '', position: 'Secretary', birthdate: '2007-02-20', age: 19, gender: 'Female', status: 'Active', purok: 'Purok 3' },
+    { id: 3, skmtNo: '2026-003', firstName: 'Pedro', middleName: '', lastName: 'Santos', suffix: '', position: 'Treasurer', birthdate: '2001-11-30', age: 25, gender: 'Male', status: 'Inactive', purok: 'Purok 5' },
+  ]);
+
+  // Original search filtering logic
   const filteredProfiles = profiles.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    p.purok.toLowerCase().includes(searchTerm.toLowerCase())
+    `${p.firstName} ${p.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.skmtNo.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Helper to trigger Modal
+  const handleAction = (mode, profile = null) => {
+    setModalMode(mode);
+    setSelectedProfile(profile);
+    setIsModalOpen(true);
+    setOpenMenuId(null);
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="bg-white rounded-2xl border border-gray-100 p-8 h-full shadow-sm">
+      {/* Header */}
+      <div className="flex justify-between items-start mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Youth Profiles</h2>
-          <p className="text-sm text-gray-500">Manage youth information</p>
+          <h1 className="text-2xl font-black text-[#0D2440]">SK Profiles</h1>
+          <p className="text-sm text-[#7BA4D0]">Official Youth Registry</p>
         </div>
-        <button 
-          className="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-800 transition-all shadow-sm"
-        >
-          <UserPlus size={18} /> Add New Profile
-        </button>
-      </div>
-
-      <div className="bg-white p-4 rounded-xl shadow-sm flex gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input 
-            type="text" 
-            placeholder="Search by name or purok..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-black transition-all" 
-          />
+        <div className="flex gap-3">
+          <button className="flex items-center gap-2 px-4 py-2 border border-gray-100 rounded-xl text-[#7BA4D0] font-bold text-sm hover:bg-gray-50 transition-all">
+            <Filter size={18} /> Filter
+          </button>
+          <button 
+            onClick={() => handleAction('add')}
+            className="flex items-center gap-2 px-6 py-2.5 bg-[#0D2440] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#0D2440]/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          >
+            <UserPlus size={18} /> Add Profile
+          </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+      {/* Search Bar */}
+      <div className="relative mb-8">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7BA4D0]" size={20} />
+        <input 
+          type="text" 
+          placeholder="Search by SKMT No. or Name..." 
+          className="w-full pl-12 pr-4 py-4 bg-[#F8FAFC] border-none rounded-2xl text-[#0D2440] font-medium placeholder-[#7BA4D0]/60 outline-none focus:ring-2 focus:ring-[#0D2440]/5 transition-all"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {/* Table Section */}
+      <div className="overflow-x-auto">
         <table className="w-full text-left">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">Name</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">Age</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">Status</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">Purok</th>
-              <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase">Action</th>
+          <thead>
+            <tr className="text-[11px] font-black uppercase tracking-[0.2em] text-[#7BA4D0] border-b border-gray-50">
+              <th className="pb-4 px-4">SKMT No.</th>
+              <th className="pb-4 px-4">Name</th>
+              <th className="pb-4 px-4">Position</th>
+              <th className="pb-4 px-4">Birthdate</th>
+              <th className="pb-4 px-4 text-center">Age</th>
+              <th className="pb-4 px-4">Gender</th>
+              <th className="pb-4 px-4">Status</th>
+              <th className="pb-4 px-4 text-right">Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {filteredProfiles.length > 0 ? (
-              filteredProfiles.map(p => (
-                <tr key={p.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 font-medium text-gray-900">{p.name}</td>
-                  <td className="px-6 py-4 text-gray-600">{p.age}</td>
-                  <td className="px-6 py-4">
-                    <span className={`px-2 py-1 rounded text-xs font-bold uppercase tracking-wider ${
-                      p.status === 'Employed' ? 'bg-green-50 text-green-700' :
-                      p.status === 'Student' ? 'bg-blue-50 text-blue-700' :
-                      'bg-amber-50 text-amber-700'
-                    }`}>
-                      {p.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-gray-600">{p.purok}</td>
-                  <td className="px-6 py-4">
-                    <button className="text-black font-bold text-sm hover:underline">View</button>
-                    <span className="mx-2 text-gray-300">|</span>
-                    <button className="text-black font-bold text-sm hover:underline">Edit</button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
-                  No profiles found matching "{searchTerm}"
+          <tbody className="divide-y divide-gray-50">
+            {filteredProfiles.map((profile) => (
+              <tr key={profile.id} className="group hover:bg-[#F8FAFC]/50 transition-all">
+                <td className="py-5 px-4 text-sm font-bold text-[#7BA4D0]">{profile.skmtNo}</td>
+                <td className="py-5 px-4 text-sm font-black text-[#0D2440]">{profile.firstName} {profile.lastName}</td>
+                <td className="py-5 px-4 text-sm text-[#7BA4D0] font-medium">{profile.position}</td>
+                <td className="py-5 px-4 text-sm text-[#7BA4D0] font-medium">
+                  <div className="flex items-center gap-2"><Calendar size={14} className="opacity-40" /> {profile.birthdate}</div>
+                </td>
+                <td className="py-5 px-4 text-sm font-black text-[#0D2440] text-center">{profile.age}</td>
+                <td className="py-5 px-4 text-sm text-[#7BA4D0] font-medium">{profile.gender}</td>
+                <td className="py-5 px-4 text-sm">
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                    profile.status === 'Active' ? 'bg-green-50 text-green-500' : 'bg-gray-100 text-gray-400'
+                  }`}>
+                    {profile.status}
+                  </span>
+                </td>
+                <td className="py-5 px-4 text-right relative">
+                  <button 
+                    onClick={() => setOpenMenuId(openMenuId === profile.id ? null : profile.id)}
+                    className="p-2 text-[#7BA4D0] hover:bg-gray-100 rounded-lg transition-all"
+                  >
+                    <MoreHorizontal size={20} />
+                  </button>
+
+                  {/* Universal Action Dropdown */}
+                  {openMenuId === profile.id && (
+                    <div ref={menuRef} className="absolute right-4 mt-2 w-36 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-2 animate-in fade-in zoom-in duration-200">
+                      <button 
+                        onClick={() => handleAction('view', profile)}
+                        className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] hover:bg-[#F8FAFC] hover:text-[#0D2440] flex items-center gap-2 transition-colors"
+                      >
+                        <Eye size={14} /> View
+                      </button>
+                      <button 
+                        onClick={() => handleAction('edit', profile)}
+                        className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] hover:bg-[#F8FAFC] hover:text-[#0D2440] flex items-center gap-2 transition-colors"
+                      >
+                        <Edit2 size={14} /> Edit
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
+
+      {/* Modal - Adaptive Component */}
+      <AddProfileModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        mode={modalMode}
+        initialData={selectedProfile}
+        onSave={(data) => {
+          console.log("Saving profile:", data);
+          setIsModalOpen(false);
+        }}
+      />
     </div>
   );
 };
