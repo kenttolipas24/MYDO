@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, UserPlus, Filter, Edit2, Eye, Calendar, MoreHorizontal } from 'lucide-react';
-import AddProfileModal from './AddProfileModal'; // Assuming they are in the same folder
+import AddProfileModal from './AddProfileModal';
 
 const ProfilesView = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [openMenuId, setOpenMenuId] = useState(null); // Tracks which row's menu is open
+  const [openMenuId, setOpenMenuId] = useState(null);
   const menuRef = useRef(null);
 
   // Modal State Logic
