@@ -4,6 +4,7 @@ import mydoLogo from './assets/mydo logo.png';
 import DashboardView from './views/DashboardView';
 import ProfilesView from './views/ProfilesView';
 import MapView from './views/MapView';
+import ReportsView from './views/ReportsView';
 
 export default function App() {
   const [isSidebarShrinked, setIsSidebarShrinked] = useState(false);
@@ -90,17 +91,9 @@ export default function App() {
         <main className="flex-1 pr-10 pb-10 overflow-y-auto">
           {activeMenu === 'dashboard' && <DashboardView />}
           {activeMenu === 'youth' && <ProfilesView />}
-          
-          {/* 2. RENDER MAP VIEW HERE */}
           {activeMenu === 'map' && <MapView />}
+          {activeMenu === 'reports' && <ReportsView />}
           
-          {/* Fallback for other menus */}
-          {activeMenu === 'reports' && (
-             <div className="bg-white rounded-2xl shadow-sm border border-[#7BA4D0]/20 p-12 text-center h-full flex flex-col items-center justify-center">
-               <h2 className="text-xl font-bold text-[#0D2440] capitalize">{activeMenu} Module</h2>
-               <p className="text-[#7BA4D0]">Coming Soon</p>
-             </div>
-          )}
         </main>
       </div>
     </div>
