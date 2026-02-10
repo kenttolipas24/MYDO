@@ -8,9 +8,9 @@ import {
 
 const ReportsView = () => {
   // --- STATE MANAGEMENT ---
-  const [selectedTab, setSelectedTab] = useState('submissions'); // 'submissions' | 'analytics'
+  const [selectedTab, setSelectedTab] = useState('submissions');
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('All'); // 'All' | 'Approved' | 'Pending' | 'Revision Needed'
+  const [statusFilter, setStatusFilter] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 

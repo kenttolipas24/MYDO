@@ -6,14 +6,14 @@ import ProfilesView from './views/ProfilesView';
 import MapView from './views/MapView';
 import ReportsView from './views/ReportsView';
 import SettingsModal from './components/SettingsModal';
-import NotificationModal from './components/NotificationModal'; // 1. IMPORT NOTIFICATION MODAL
+import NotificationModal from './components/NotificationModal';
 
 export default function App() {
   const [isSidebarShrinked, setIsSidebarShrinked] = useState(false);
   const [activeMenu, setActiveMenu] = useState('dashboard');
   
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isNotifOpen, setIsNotifOpen] = useState(false); // 2. ADD NOTIF STATE
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
 
   return (
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden relative">
@@ -50,7 +50,7 @@ export default function App() {
             <button 
               onClick={() => {
                 setIsNotifOpen(!isNotifOpen);
-                setIsProfileOpen(false); // Close profile if open
+                setIsProfileOpen(false);
               }}
               className={`p-2.5 rounded-full transition-all relative ${isNotifOpen ? 'bg-blue-100 text-[#0D2440]' : 'text-[#2E5E99] hover:text-[#0D2440] hover:bg-gray-100'}`}
             >
@@ -67,7 +67,7 @@ export default function App() {
             <button 
               onClick={() => {
                 setIsProfileOpen(!isProfileOpen);
-                setIsNotifOpen(false); // Close notif if open
+                setIsNotifOpen(false);
               }}
               className={`w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all ${isProfileOpen ? 'bg-[#2E5E99] text-white ring-4 ring-[#2E5E99]/20' : 'bg-[#0D2440] text-white hover:bg-[#1a3b5e]'}`}
             >
