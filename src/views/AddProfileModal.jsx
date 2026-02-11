@@ -82,8 +82,8 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
       {/* Row 3 */}
       <ViewField label="BARANGAY" value={formData.brgy || 'Airport Village'} />
       <div>
-        <p className="text-[9px] font-bold text-gray-400 uppercase mb-1 tracking-wide">STATUS</p>
-        <span className="inline-flex items-center px-2 py-0.5 bg-emerald-50 text-emerald-600 rounded-md text-[9px] font-black border border-emerald-100 uppercase">
+        <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase mb-1 tracking-wide transition-colors">STATUS</p>
+        <span className="inline-flex items-center px-2 py-0.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-md text-[9px] font-black border border-emerald-100 dark:border-emerald-800/50 uppercase transition-colors">
           {formData.status || 'ACTIVE'}
         </span>
       </div>
@@ -121,7 +121,7 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
       />
       
       {/* Divider */}
-      {isAdd && <div className="col-span-2 h-px bg-gray-50 my-2" />}
+      {isAdd && <div className="col-span-2 h-px bg-gray-50 dark:bg-slate-700/50 my-2 transition-colors" />}
 
       {/* Row 3: SKMT & Birthdate */}
       <EditField 
@@ -139,9 +139,9 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
 
       {/* Row 4: Gender & Barangay */}
       <div>
-        <p className="text-[9px] font-bold text-gray-400 uppercase mb-1">Gender</p>
+        <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase mb-1 transition-colors">Gender</p>
         <select 
-          className="w-full text-xs font-bold text-[#0D2440] bg-gray-50 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20"
+          className="w-full text-xs font-bold text-[#0D2440] dark:text-white bg-gray-50 dark:bg-slate-800 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all"
           value={formData.gender}
           onChange={(e) => setFormData({...formData, gender: e.target.value})}
         >
@@ -158,9 +158,9 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
       
       {/* Row 5: Status */}
       <div className={isAdd ? "col-span-2" : ""}>
-        <p className="text-[9px] font-bold text-gray-400 uppercase mb-1">Status</p>
+        <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase mb-1 transition-colors">Status</p>
         <select 
-          className="w-full text-xs font-bold text-[#0D2440] bg-gray-50 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20"
+          className="w-full text-xs font-bold text-[#0D2440] dark:text-white bg-gray-50 dark:bg-slate-800 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all"
           value={formData.status}
           onChange={(e) => setFormData({...formData, status: e.target.value})}
         >
@@ -176,28 +176,30 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
   // =========================================================
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-[#0D2440]/30 backdrop-blur-sm" onClick={onClose} />
+      {/* Background Overlay */}
+      <div className="absolute inset-0 bg-[#0D2440]/30 dark:bg-slate-900/80 backdrop-blur-sm transition-colors" onClick={onClose} />
       
-      <div className="relative bg-white w-full max-w-2xl rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+      {/* Modal Content */}
+      <div className="relative bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in duration-200 transition-colors">
         
         {/* Header */}
-        <div className="px-8 py-5 flex justify-between items-center border-b border-gray-50">
+        <div className="px-8 py-5 flex justify-between items-center border-b border-gray-50 dark:border-slate-800 transition-colors">
           <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm ${
-              isAdd ? 'bg-emerald-50 text-emerald-600' : isEdit ? 'bg-amber-50 text-amber-600' : 'bg-indigo-50 text-indigo-600'
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm transition-colors ${
+              isAdd ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400' : isEdit ? 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400' : 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400'
             }`}>
               {isAdd ? <UserPlus size={20} /> : isEdit ? <Edit3 size={20} /> : <Eye size={20} />}
             </div>
             <div>
-              <h2 className="text-base font-black text-[#0D2440] leading-tight">
+              <h2 className="text-base font-black text-[#0D2440] dark:text-white leading-tight transition-colors">
                 {isAdd ? 'Register New SK' : isEdit ? 'Modify Details' : 'SK Details'}
               </h2>
-              <p className="text-[9px] font-bold text-indigo-400 uppercase tracking-widest">
+              <p className={`text-[9px] font-bold uppercase tracking-widest transition-colors ${isAdd ? 'text-emerald-400' : isEdit ? 'text-amber-400' : 'text-indigo-400'}`}>
                 {isAdd ? 'Official Entry Terminal' : 'Identity Management'}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 hover:bg-gray-100 text-gray-400 rounded-full transition-colors">
+          <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-400 dark:text-slate-500 rounded-full transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -218,12 +220,12 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
 
               <div 
                 onClick={triggerFileInput}
-                className={`w-32 h-32 rounded-[2rem] overflow-hidden border-4 border-white shadow-xl bg-gray-100 flex items-center justify-center group relative ${!isView ? 'cursor-pointer' : ''}`}
+                className={`w-32 h-32 rounded-[2rem] overflow-hidden border-4 border-white dark:border-slate-800 shadow-xl bg-gray-100 dark:bg-slate-800 flex items-center justify-center group relative transition-colors ${!isView ? 'cursor-pointer' : ''}`}
               >
                 {formData.image ? (
                   <img src={formData.image} alt="Profile" className="w-full h-full object-cover" />
                 ) : isAdd ? (
-                  <User size={40} className="text-gray-300" />
+                  <User size={40} className="text-gray-300 dark:text-slate-500 transition-colors" />
                 ) : (
                   <img 
                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${formData.firstName}`} 
@@ -241,10 +243,10 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
               </div>
               
               <div className="flex flex-col items-center gap-1">
-                <p className="text-[10px] font-black text-gray-300 uppercase tracking-tighter">
+                <p className="text-[10px] font-black text-gray-300 dark:text-slate-600 uppercase tracking-tighter transition-colors">
                   {isAdd ? 'Initial Rating' : 'Performance'}
                 </p>
-                <div className={`flex items-center gap-0.5 ${isAdd ? 'text-gray-200' : 'text-amber-400'}`}>
+                <div className={`flex items-center gap-0.5 transition-colors ${isAdd ? 'text-gray-200 dark:text-slate-600' : 'text-amber-400'}`}>
                   {isAdd ? (
                      [1, 2, 3, 4, 5].map((s) => <Star key={s} size={12} className="fill-current" />)
                   ) : (
@@ -257,7 +259,7 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
                     </>
                   )}
                 </div>
-                <span className={`text-[11px] font-black mt-0.5 ${isAdd ? 'text-gray-400' : 'text-amber-600'}`}>
+                <span className={`text-[11px] font-black mt-0.5 transition-colors ${isAdd ? 'text-gray-400 dark:text-slate-500' : 'text-amber-600 dark:text-amber-500'}`}>
                   {isAdd ? '0.0' : '4.5'}
                 </span>
               </div>
@@ -266,9 +268,9 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
             {/* Right Column: SWAPS INTERFACE BASED ON MODE */}
             <div className="flex-1 space-y-6">
               {!isAdd && (
-                <div className="flex items-center gap-2 opacity-30">
-                  <User size={12} />
-                  <span className="text-[9px] font-black uppercase tracking-widest">Registry Information</span>
+                <div className="flex items-center gap-2 opacity-30 dark:opacity-40">
+                  <User size={12} className="dark:text-slate-300" />
+                  <span className="text-[9px] font-black uppercase tracking-widest dark:text-slate-300 transition-colors">Registry Information</span>
                 </div>
               )}
               
@@ -279,16 +281,16 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
 
           {/* Compliance Board */}
           {!isAdd && (
-            <section className="bg-gray-50/50 p-6 rounded-[2rem] border border-gray-100">
+            <section className="bg-gray-50/50 dark:bg-slate-800/30 p-6 rounded-[2rem] border border-gray-100 dark:border-slate-800 transition-colors">
               <div className="flex items-center gap-2 mb-4">
-                <Shield size={14} className="text-indigo-500" />
-                <h3 className="text-[10px] font-black text-[#0D2440] uppercase tracking-wider">Compliance Monitoring Board</h3>
+                <Shield size={14} className="text-indigo-500 dark:text-indigo-400 transition-colors" />
+                <h3 className="text-[10px] font-black text-[#0D2440] dark:text-white uppercase tracking-wider transition-colors">Compliance Monitoring Board</h3>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {categories.map((item, i) => (
-                  <div key={i} className="bg-white px-4 py-3 rounded-2xl border border-gray-50 shadow-sm flex items-center justify-between">
-                    <span className="text-[9px] font-bold text-gray-500 uppercase tracking-tight">{item.name}</span>
-                    <div className={`w-2.5 h-2.5 rounded-full ${item.status ? 'bg-emerald-500 shadow-emerald-100' : 'bg-red-500 shadow-red-100'}`} />
+                  <div key={i} className="bg-white dark:bg-slate-800 px-4 py-3 rounded-2xl border border-gray-50 dark:border-slate-700 shadow-sm flex items-center justify-between transition-colors">
+                    <span className="text-[9px] font-bold text-gray-500 dark:text-slate-400 uppercase tracking-tight transition-colors">{item.name}</span>
+                    <div className={`w-2.5 h-2.5 rounded-full transition-colors ${item.status ? 'bg-emerald-500 dark:bg-emerald-400 shadow-emerald-100 dark:shadow-none' : 'bg-red-500 dark:bg-red-400 shadow-red-100 dark:shadow-none'}`} />
                   </div>
                 ))}
               </div>
@@ -297,8 +299,9 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-4 bg-[#0D2440] flex justify-between items-center">
-          <div className="flex items-center gap-2 text-[8px] font-bold text-white/30 uppercase tracking-[0.2em]">
+        {/* Darkened the footer for both light/dark mode for consistent branding, but adjusted text colors for dark mode context */}
+        <div className="px-8 py-4 bg-[#0D2440] dark:bg-slate-950 flex justify-between items-center transition-colors">
+          <div className="flex items-center gap-2 text-[8px] font-bold text-white/30 dark:text-slate-500 uppercase tracking-[0.2em]">
             <div className={`w-1.5 h-1.5 rounded-full ${isAdd ? 'bg-emerald-400' : 'bg-blue-400'} animate-pulse`} />
             <span>{isAdd ? 'Secure Registration Node' : 'Secure Data Terminal'}</span>
           </div>
@@ -306,8 +309,8 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
           {!isView && (
             <button 
               onClick={() => onSave(formData)}
-              className={`flex items-center gap-2 px-8 py-2.5 bg-white text-[#0D2440] rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95 ${
-                isAdd ? 'hover:bg-emerald-50' : 'hover:bg-indigo-50'
+              className={`flex items-center gap-2 px-8 py-2.5 bg-white dark:bg-slate-800 text-[#0D2440] dark:text-white rounded-xl font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95 ${
+                isAdd ? 'hover:bg-emerald-50 dark:hover:bg-slate-700 hover:text-emerald-700 dark:hover:text-emerald-400' : 'hover:bg-indigo-50 dark:hover:bg-slate-700 hover:text-indigo-700 dark:hover:text-indigo-400'
               }`}
             >
               <Save size={14} /> 
@@ -323,8 +326,8 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
 // HELPER 1: For View (Text Only)
 const ViewField = ({ label, value, isHighlight }) => (
   <div className="min-w-0">
-    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-1">{label}</p>
-    <p className={`text-xs font-bold truncate ${isHighlight ? 'text-indigo-600' : 'text-[#0D2440]'}`}>
+    <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wide mb-1 transition-colors">{label}</p>
+    <p className={`text-xs font-bold truncate transition-colors ${isHighlight ? 'text-indigo-600 dark:text-indigo-400' : 'text-[#0D2440] dark:text-white'}`}>
       {value || '---'}
     </p>
   </div>
@@ -333,13 +336,13 @@ const ViewField = ({ label, value, isHighlight }) => (
 // HELPER 2: For Edit (Input Fields)
 const EditField = ({ label, value, onChange, type = "text", isHighlight }) => (
   <div className="min-w-0">
-    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wide mb-1">{label}</p>
+    <p className="text-[9px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-wide mb-1 transition-colors">{label}</p>
     <input 
       type={type}
       placeholder={type === "date" ? "" : `Enter ${label}...`}
       value={value || ''}
       onChange={(e) => onChange(e.target.value)}
-      className={`w-full text-xs font-bold bg-gray-50 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20 ${isHighlight ? 'text-indigo-600' : 'text-[#0D2440]'}`}
+      className={`w-full text-xs font-bold bg-gray-50 dark:bg-slate-800 border-none rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-indigo-500/20 transition-all ${isHighlight ? 'text-indigo-600 dark:text-indigo-400 placeholder-indigo-300 dark:placeholder-indigo-800' : 'text-[#0D2440] dark:text-white placeholder-gray-300 dark:placeholder-slate-600'}`}
     />
   </div>
 );

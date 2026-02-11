@@ -102,27 +102,28 @@ const ProfilesView = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-8 h-full shadow-sm flex flex-col">
+    // MAIN CONTAINER (Added dark mode classes)
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 p-8 h-full shadow-sm flex flex-col transition-colors duration-300">
       
       {/* --- HEADER --- */}
       <div className="flex justify-between items-start mb-8 shrink-0">
         <div>
           {currentView === 'barangays' ? (
             <>
-              <h1 className="text-2xl font-black text-[#0D2440]">Barangay Directory</h1>
-              <p className="text-sm text-[#7BA4D0]">Select a barangay to view its SK Profiles</p>
+              <h1 className="text-2xl font-black text-[#0D2440] dark:text-white transition-colors">Barangay Directory</h1>
+              <p className="text-sm text-[#7BA4D0] dark:text-slate-400 transition-colors">Select a barangay to view its SK Profiles</p>
             </>
           ) : (
             <div className="flex items-center gap-3">
               <button 
                 onClick={handleBackToBarangays}
-                className="p-2 bg-gray-50 text-gray-500 hover:text-[#0D2440] hover:bg-gray-100 rounded-xl transition-all"
+                className="p-2 bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 hover:text-[#0D2440] dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-700 rounded-xl transition-all"
               >
                 <ChevronLeft size={20} />
               </button>
               <div>
-                <h1 className="text-2xl font-black text-[#0D2440]">Brgy. {selectedBarangay?.name}</h1>
-                <p className="text-sm text-[#7BA4D0] uppercase tracking-widest font-bold text-[10px]">Youth Registry</p>
+                <h1 className="text-2xl font-black text-[#0D2440] dark:text-white transition-colors">Brgy. {selectedBarangay?.name}</h1>
+                <p className="text-sm text-[#7BA4D0] dark:text-slate-400 uppercase tracking-widest font-bold text-[10px] transition-colors">Youth Registry</p>
               </div>
             </div>
           )}
@@ -134,24 +135,24 @@ const ProfilesView = () => {
           <div className="relative" ref={filterRef}>
             <button 
               onClick={() => setIsFilterMenuOpen(!isFilterMenuOpen)}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-100 rounded-xl text-[#7BA4D0] font-bold text-sm hover:bg-gray-50 transition-all"
+              className="flex items-center gap-2 px-4 py-2 border border-gray-100 dark:border-slate-700 rounded-xl text-[#7BA4D0] dark:text-slate-300 font-bold text-sm hover:bg-gray-50 dark:hover:bg-slate-800 transition-all"
             >
               <Filter size={18} /> Filter
             </button>
 
             {/* FILTER DROPDOWN MENU */}
             {isFilterMenuOpen && (
-              <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-5 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 z-50 p-5 animate-in fade-in slide-in-from-top-2 duration-200">
                 
                 {currentView === 'barangays' ? (
                   // BARANGAY FILTERS
                   <>
                     <div className="mb-4">
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">District Category</label>
+                      <label className="text-[10px] font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest mb-2 block">District Category</label>
                       <select 
                         value={brgyCategoryFilter}
                         onChange={(e) => setBrgyCategoryFilter(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-100 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none"
+                        className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 text-gray-700 dark:text-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors"
                       >
                         <option value="All">All Categories</option>
                         <option value="Rural">Rural</option>
@@ -161,11 +162,11 @@ const ProfilesView = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Status</label>
+                      <label className="text-[10px] font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest mb-2 block">Status</label>
                       <select 
                         value={brgyStatusFilter}
                         onChange={(e) => setBrgyStatusFilter(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-100 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none"
+                        className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 text-gray-700 dark:text-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors"
                       >
                         <option value="All">All Statuses</option>
                         <option value="Active">Active</option>
@@ -177,11 +178,11 @@ const ProfilesView = () => {
                   // PROFILE FILTERS
                   <>
                     <div className="mb-4">
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Account Status</label>
+                      <label className="text-[10px] font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest mb-2 block">Account Status</label>
                       <select 
                         value={profileStatusFilter}
                         onChange={(e) => setProfileStatusFilter(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-100 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none"
+                        className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 text-gray-700 dark:text-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors"
                       >
                         <option value="All">All Statuses</option>
                         <option value="Active">Active</option>
@@ -190,11 +191,11 @@ const ProfilesView = () => {
                       </select>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Gender</label>
+                      <label className="text-[10px] font-black text-gray-400 dark:text-slate-400 uppercase tracking-widest mb-2 block">Gender</label>
                       <select 
                         value={profileGenderFilter}
                         onChange={(e) => setProfileGenderFilter(e.target.value)}
-                        className="w-full bg-gray-50 border border-gray-100 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none"
+                        className="w-full bg-gray-50 dark:bg-slate-900 border border-gray-100 dark:border-slate-700 text-gray-700 dark:text-slate-200 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 outline-none transition-colors"
                       >
                         <option value="All">All Genders</option>
                         <option value="Male">Male</option>
@@ -212,7 +213,7 @@ const ProfilesView = () => {
           {currentView === 'profiles' && (
             <button 
               onClick={() => handleAction('add')}
-              className="flex items-center gap-2 px-6 py-2.5 bg-[#0D2440] text-white rounded-xl font-bold text-sm shadow-lg shadow-[#0D2440]/20 hover:bg-[#1a3b5e] transition-all"
+              className="flex items-center gap-2 px-6 py-2.5 bg-[#0D2440] dark:bg-blue-600 text-white rounded-xl font-bold text-sm shadow-lg shadow-[#0D2440]/20 dark:shadow-none hover:bg-[#1a3b5e] dark:hover:bg-blue-700 transition-all"
             >
               <UserPlus size={18} /> Add Profile
             </button>
@@ -222,11 +223,11 @@ const ProfilesView = () => {
 
       {/* --- SEARCH BAR --- */}
       <div className="relative mb-6 shrink-0 animate-in fade-in duration-300">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7BA4D0]" size={20} />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#7BA4D0] dark:text-slate-400" size={20} />
         <input 
           type="text" 
           placeholder={currentView === 'barangays' ? "Search barangay or chairman..." : "Search by SKMT No. or Name..."}
-          className="w-full pl-12 pr-4 py-3.5 bg-[#F8FAFC] border border-gray-100 rounded-2xl text-[#0D2440] font-medium placeholder-[#7BA4D0]/60 outline-none focus:ring-2 focus:ring-[#0D2440]/10 transition-all"
+          className="w-full pl-12 pr-4 py-3.5 bg-[#F8FAFC] dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-2xl text-[#0D2440] dark:text-white font-medium placeholder-[#7BA4D0]/60 dark:placeholder-slate-500 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -238,8 +239,8 @@ const ProfilesView = () => {
         {/* VIEW 1: BARANGAY LIST */}
         {currentView === 'barangays' && (
           <table className="w-full text-left animate-in slide-in-from-right-4 duration-300">
-            <thead className="sticky top-0 bg-white z-10">
-              <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-[#7BA4D0] border-b border-gray-100">
+            <thead className="sticky top-0 bg-white dark:bg-slate-900 z-10 transition-colors">
+              <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-[#7BA4D0] dark:text-slate-400 border-b border-gray-100 dark:border-slate-800">
                 <th className="pb-4 px-4">Barangay</th>
                 <th className="pb-4 px-4">SK Chairman</th>
                 <th className="pb-4 px-4 text-center">Total Youth</th>
@@ -247,30 +248,30 @@ const ProfilesView = () => {
                 <th className="pb-4 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 dark:divide-slate-800/50">
               {filteredBarangays.map((brgy) => (
-                <tr key={brgy.id} className="group hover:bg-[#F8FAFC] transition-all cursor-pointer" onClick={() => handleViewBarangay(brgy)}>
+                <tr key={brgy.id} className="group hover:bg-[#F8FAFC] dark:hover:bg-slate-800/50 transition-all cursor-pointer" onClick={() => handleViewBarangay(brgy)}>
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
-                      <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-white transition-colors">
+                      <div className="p-2 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg group-hover:bg-white dark:group-hover:bg-slate-700 transition-colors">
                         <MapPin size={18} />
                       </div>
                       <div>
-                        <p className="text-sm font-black text-[#0D2440]">{brgy.name}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">{brgy.category}</p>
+                        <p className="text-sm font-black text-[#0D2440] dark:text-white transition-colors">{brgy.name}</p>
+                        <p className="text-[10px] font-bold text-gray-400 dark:text-slate-500 uppercase tracking-widest mt-0.5">{brgy.category}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="py-4 px-4 text-sm font-bold text-gray-700">{brgy.chairman}</td>
+                  <td className="py-4 px-4 text-sm font-bold text-gray-700 dark:text-slate-300 transition-colors">{brgy.chairman}</td>
                   <td className="py-4 px-4">
-                    <div className="flex items-center justify-center gap-1.5 text-sm font-black text-[#0D2440] bg-gray-50 py-1 px-3 rounded-lg w-fit mx-auto group-hover:bg-white transition-colors">
-                      <Users size={14} className="text-blue-500" />
+                    <div className="flex items-center justify-center gap-1.5 text-sm font-black text-[#0D2440] dark:text-white bg-gray-50 dark:bg-slate-800 py-1 px-3 rounded-lg w-fit mx-auto group-hover:bg-white dark:group-hover:bg-slate-700 transition-colors">
+                      <Users size={14} className="text-blue-500 dark:text-blue-400" />
                       {brgy.totalYouth}
                     </div>
                   </td>
                   <td className="py-4 px-4">
                     <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
-                        brgy.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-gray-50 text-gray-500 border-gray-200'
+                        brgy.status === 'Active' ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-800/50' : 'bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700'
                       }`}>
                       {brgy.status}
                     </span>
@@ -278,7 +279,7 @@ const ProfilesView = () => {
                   <td className="py-4 px-4 text-right">
                     <button 
                       onClick={(e) => { e.stopPropagation(); handleViewBarangay(brgy); }}
-                      className="px-4 py-2 bg-white border border-gray-200 text-[#0D2440] text-xs font-bold rounded-xl group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-700 transition-all"
+                      className="px-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-[#0D2440] dark:text-white text-xs font-bold rounded-xl group-hover:border-blue-200 dark:group-hover:border-blue-500 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/30 group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-all"
                     >
                       View Profiles
                     </button>
@@ -287,7 +288,7 @@ const ProfilesView = () => {
               ))}
               {filteredBarangays.length === 0 && (
                 <tr>
-                  <td colSpan="5" className="py-12 text-center text-sm font-bold text-gray-400">
+                  <td colSpan="5" className="py-12 text-center text-sm font-bold text-gray-400 dark:text-slate-500">
                     No barangays match your filter criteria.
                   </td>
                 </tr>
@@ -299,8 +300,8 @@ const ProfilesView = () => {
         {/* VIEW 2: PROFILES LIST */}
         {currentView === 'profiles' && (
           <table className="w-full text-left animate-in slide-in-from-right-8 duration-300">
-            <thead className="sticky top-0 bg-white z-10">
-              <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-[#7BA4D0] border-b border-gray-100">
+            <thead className="sticky top-0 bg-white dark:bg-slate-900 z-10 transition-colors">
+              <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-[#7BA4D0] dark:text-slate-400 border-b border-gray-100 dark:border-slate-800">
                 <th className="pb-4 px-4">SKMT No.</th>
                 <th className="pb-4 px-4">Name</th>
                 <th className="pb-4 px-4">Position</th>
@@ -311,23 +312,23 @@ const ProfilesView = () => {
                 <th className="pb-4 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-50 dark:divide-slate-800/50">
               {filteredProfiles.length > 0 ? (
                 filteredProfiles.map((profile) => (
-                  <tr key={profile.id} className="group hover:bg-[#F8FAFC]/50 transition-all">
-                    <td className="py-5 px-4 text-sm font-bold text-[#7BA4D0]">{profile.skmtNo}</td>
-                    <td className="py-5 px-4 text-sm font-black text-[#0D2440]">{profile.firstName} {profile.lastName}</td>
-                    <td className="py-5 px-4 text-xs font-bold text-gray-600 uppercase tracking-wide">{profile.position}</td>
-                    <td className="py-5 px-4 text-sm text-[#7BA4D0] font-medium">
+                  <tr key={profile.id} className="group hover:bg-[#F8FAFC] dark:hover:bg-slate-800/50 transition-all">
+                    <td className="py-5 px-4 text-sm font-bold text-[#7BA4D0] dark:text-blue-400">{profile.skmtNo}</td>
+                    <td className="py-5 px-4 text-sm font-black text-[#0D2440] dark:text-white">{profile.firstName} {profile.lastName}</td>
+                    <td className="py-5 px-4 text-xs font-bold text-gray-600 dark:text-slate-300 uppercase tracking-wide">{profile.position}</td>
+                    <td className="py-5 px-4 text-sm text-[#7BA4D0] dark:text-slate-400 font-medium">
                       <div className="flex items-center gap-2"><Calendar size={14} className="opacity-40" /> {profile.birthdate}</div>
                     </td>
-                    <td className="py-5 px-4 text-sm font-black text-[#0D2440] text-center">{profile.age}</td>
-                    <td className="py-5 px-4 text-sm text-[#7BA4D0] font-medium">{profile.gender}</td>
+                    <td className="py-5 px-4 text-sm font-black text-[#0D2440] dark:text-white text-center">{profile.age}</td>
+                    <td className="py-5 px-4 text-sm text-[#7BA4D0] dark:text-slate-400 font-medium">{profile.gender}</td>
                     <td className="py-5 px-4 text-sm">
                       <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
-                        profile.status === 'Active' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                        profile.status === 'Resigned' ? 'bg-red-50 text-red-600 border-red-100' : 
-                        'bg-gray-50 text-gray-500 border-gray-200'
+                        profile.status === 'Active' ? 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border-emerald-100 dark:border-emerald-800/50' :
+                        profile.status === 'Resigned' ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-100 dark:border-red-800/50' : 
+                        'bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-slate-700'
                       }`}>
                         {profile.status}
                       </span>
@@ -335,23 +336,23 @@ const ProfilesView = () => {
                     <td className="py-5 px-4 text-right relative">
                       <button 
                         onClick={() => setOpenMenuId(openMenuId === profile.id ? null : profile.id)}
-                        className="p-2 text-[#7BA4D0] hover:bg-gray-100 hover:text-[#0D2440] rounded-lg transition-all"
+                        className="p-2 text-[#7BA4D0] dark:text-slate-400 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-[#0D2440] dark:hover:text-white rounded-lg transition-all"
                       >
                         <MoreHorizontal size={20} />
                       </button>
 
                       {/* Universal Action Dropdown */}
                       {openMenuId === profile.id && (
-                        <div ref={menuRef} className="absolute right-4 mt-2 w-36 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 py-2 animate-in fade-in zoom-in duration-200">
+                        <div ref={menuRef} className="absolute right-4 mt-2 w-36 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-700 z-50 py-2 animate-in fade-in zoom-in duration-200">
                           <button 
                             onClick={() => handleAction('view', profile)}
-                            className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] hover:bg-[#F8FAFC] hover:text-[#0D2440] flex items-center gap-2 transition-colors"
+                            className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] dark:text-slate-400 hover:bg-[#F8FAFC] dark:hover:bg-slate-700 hover:text-[#0D2440] dark:hover:text-white flex items-center gap-2 transition-colors"
                           >
                             <Eye size={14} /> View
                           </button>
                           <button 
                             onClick={() => handleAction('edit', profile)}
-                            className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] hover:bg-[#F8FAFC] hover:text-[#0D2440] flex items-center gap-2 transition-colors"
+                            className="w-full px-4 py-2.5 text-left text-[11px] font-black uppercase tracking-widest text-[#7BA4D0] dark:text-slate-400 hover:bg-[#F8FAFC] dark:hover:bg-slate-700 hover:text-[#0D2440] dark:hover:text-white flex items-center gap-2 transition-colors"
                           >
                             <Edit2 size={14} /> Edit
                           </button>
@@ -362,7 +363,7 @@ const ProfilesView = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="8" className="py-12 text-center text-sm font-bold text-gray-400">
+                  <td colSpan="8" className="py-12 text-center text-sm font-bold text-gray-400 dark:text-slate-500">
                     No youth profiles match your search or filter.
                   </td>
                 </tr>
