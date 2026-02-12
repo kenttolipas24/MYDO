@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // <-- 1. ADDED useEffect
+import React, { useState, useEffect } from 'react';
 import { Bell, Search, User, Home, Users, Map, FileText, Menu } from 'lucide-react';
 import mydoLogo from './assets/mydo logo.png'; 
 import DashboardView from './views/DashboardView';
@@ -19,10 +19,10 @@ export default function App() {
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
   const [userSettingsTab, setUserSettingsTab] = useState('profile');
 
-  // --- 2. ADDED DARK MODE STATE ---
+  // --- 2. DARK MODE STATE ---
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // --- 3. ADDED LOGIC TO TELL THE BROWSER TO SWITCH COLORS ---
+  // --- 3. SWITCH COLORS ---
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
@@ -31,18 +31,17 @@ export default function App() {
     }
   }, [isDarkMode]);
 
-  // Function to open specific tab from the dropdown
+  // tab from the dropdown
   const handleOpenSettings = (tab) => {
     setUserSettingsTab(tab);
     setIsUserSettingsOpen(true);
-    setIsProfileOpen(false); // Close the dropdown menu
+    setIsProfileOpen(false);
   };
 
   return (
-    // 4. ADDED 'dark:bg-slate-900' to the main background
     <div className="h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-300 flex flex-col overflow-hidden relative">
       
-      {/* HEADER - ADDED 'dark:bg-slate-900' */}
+      {/* HEADER */}
       <header className="flex items-center justify-between px-10 py-6 shrink-0 bg-gray-50 dark:bg-slate-900 transition-colors duration-300 z-20">
         <div className="flex items-center gap-6 flex-1">
           <button 
@@ -157,7 +156,7 @@ export default function App() {
 
         {/* MAIN AREA */}
         <main className={`flex-1 h-full pr-10 pb-10 pl-2 transition-all ${
-          (activeMenu === 'map' || activeMenu === 'reports') ? 'overflow-hidden' : 'overflow-y-auto'
+          activeMenu === 'map' ? 'overflow-hidden' : 'overflow-y-auto'
         }`}>
           {activeMenu === 'dashboard' && <DashboardView />}
           {activeMenu === 'youth' && <ProfilesView />}

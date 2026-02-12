@@ -46,7 +46,7 @@ const MapView = () => {
     { id: 5, name: "Cawayan", lat: 12.513461, lng: 124.656283, category: "Coastal" },
     { id: 6, name: "Bangkerohan", lat: 12.498701, lng: 124.646390, category: "Coastal" },
 
-    // 3. POBLACION (As listed)
+    // 3. POBLACION BARANGAYS
     { id: 7, name: "Acacia", lat: 12.501479, lng: 124.636767, category: "Poblacion" },
     { id: 8, name: "Airport Village", lat: 12.5020, lng: 124.6390, category: "Poblacion" },
     { id: 9, name: "Calachuchi", lat: 12.499774, lng: 124.634334, category: "Poblacion" },
@@ -64,7 +64,7 @@ const MapView = () => {
     { id: 21, name: "Talisay", lat: 12.503351, lng: 124.640179, category: "Poblacion" },
     { id: 22, name: "Yakal", lat: 12.496310, lng: 124.638583, category: "Poblacion" },
 
-    // 4. RURAL BARANGAYS (Remaining)
+    // 4. RURAL BARANGAYS
     { id: 23, name: "Aguinaldo", lat: 12.435772, lng: 124.647179, category: "Rural" },
     { id: 24, name: "Bocsol", lat: 12.454541, lng: 124.564847, category: "Rural" },
     { id: 25, name: "Cabayhan", lat: 12.470950, lng: 124.580654, category: "Rural" },
@@ -135,7 +135,6 @@ const MapView = () => {
       </div>
 
       {/* Map Container */}
-      {/* Added classes to invert map tiles in dark mode: [&_.leaflet-layer]:dark:invert [&_.leaflet-layer]:dark:hue-rotate-180 */}
       <div className="flex-1 rounded-2xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-inner relative z-0 transition-colors duration-300 [&_.leaflet-layer]:dark:invert [&_.leaflet-layer]:dark:hue-rotate-180 [&_.leaflet-layer]:dark:brightness-95">
         <MapContainer
           center={catarmanPosition}
@@ -150,7 +149,7 @@ const MapView = () => {
 
           {filteredBarangays.map((brgy) => (
             <Marker key={brgy.id} position={[brgy.lat, brgy.lng]}>
-              {/* Note: Leaflet popups have strict internal CSS, so we keep the text dark for readability against the white popup background */}
+              {/* Note: Leaflet popup */}
               <Popup>
                 <div className="p-1 min-w-[120px]">
                   <span className={`text-[9px] font-bold uppercase tracking-wider ${

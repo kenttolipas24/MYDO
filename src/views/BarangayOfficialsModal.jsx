@@ -9,7 +9,7 @@ const BarangayOfficialsModal = ({ isOpen, onClose, barangay }) => {
   const officials = {
     chairperson: { name: `Hon. Juan Dela Cruz`, position: "SK Chairperson" },
     kagawads: [
-      { name: "Hon. Maria Clara", position: "SK Kagawad" }, // #1
+      { name: "Hon. Maria Clara", position: "SK Kagawad" },
       { name: "Hon. Jose Rizal", position: "SK Kagawad" },
       { name: "Hon. Andres Bonifacio", position: "SK Kagawad" },
       { name: "Hon. Apolinario Mabini", position: "SK Kagawad" },
@@ -160,7 +160,7 @@ const BarangayOfficialsModal = ({ isOpen, onClose, barangay }) => {
                 </div>
               </div>
 
-              {/* LEVEL 3: KAGAWADS CONTAINER (SPLIT LAYOUT) */}
+              {/* LEVEL 3: KAGAWADS CONTAINER */}
               <div className="relative w-full max-w-5xl bg-white dark:bg-slate-800 rounded-[2.5rem] border border-gray-200 dark:border-slate-700 p-12 shadow-sm transition-colors">
                 
                 {/* Header Badge */}
@@ -172,7 +172,7 @@ const BarangayOfficialsModal = ({ isOpen, onClose, barangay }) => {
 
                 <div className="flex gap-12 items-center w-full">
                   
-                  {/* --- LEFT: Kagawad #1 (Prominent) --- */}
+                  {/* --- LEFT: Kagawad #1 --- */}
                   <div className="w-1/3 flex justify-center border-r border-gray-100 dark:border-slate-700 pr-12 transition-colors">
                     <div className="relative flex flex-col items-center justify-center p-8 bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-100 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-500 hover:shadow-lg transition-all w-full text-center group">
                       
@@ -189,12 +189,12 @@ const BarangayOfficialsModal = ({ isOpen, onClose, barangay }) => {
                     </div>
                   </div>
 
-                  {/* --- RIGHT: Kagawads #2-7 (3x2 Grid) --- */}
+                  {/* --- RIGHT: Kagawads --- */}
                   <div className="w-2/3 grid grid-cols-3 gap-4">
                     {remainingKagawads.map((kaga, i) => (
                       <div key={i} className="relative flex flex-col items-center p-4 bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 hover:border-gray-200 dark:hover:border-slate-600 hover:shadow-md transition-all group">
                         
-                        {/* Badge #2-7 */}
+                        {/* Badge */}
                         <div className="absolute -top-2 -left-2 w-6 h-6 bg-gray-100 dark:bg-slate-700 text-gray-500 dark:text-slate-300 rounded-full flex items-center justify-center text-[10px] font-black border-2 border-white dark:border-slate-800 shadow-sm z-10 transition-colors">
                           {i + 2}
                         </div>

@@ -27,10 +27,10 @@ const UserSettingsModal = ({ isOpen, onClose, initialTab = 'profile', isDarkMode
       {/* Dark Backdrop */}
       <div className="fixed inset-0 bg-[#0D2440]/40 backdrop-blur-sm z-[60] animate-in fade-in duration-200" onClick={onClose}></div>
 
-      {/* SINGLE Modal Container (Fixed the duplicate issue) */}
+      {/* SINGLE Modal Container */}
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[600px] bg-white dark:bg-slate-900 rounded-2xl shadow-2xl z-[70] flex overflow-hidden animate-in fade-in zoom-in-95 duration-200 transition-colors">
         
-        {/* --- LEFT SIDEBAR (TABS) --- */}
+        {/* --- LEFT SIDEBAR --- */}
         <div className="w-64 bg-gray-50 dark:bg-slate-800 border-r border-gray-100 dark:border-slate-700 flex flex-col transition-colors">
           <div className="p-6 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center">
              <h2 className="font-black text-[#0D2440] dark:text-white text-lg">Account</h2>

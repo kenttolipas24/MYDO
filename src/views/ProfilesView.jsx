@@ -59,7 +59,7 @@ const ProfilesView = () => {
     { id: 5, barangay: 'Old Rizal', skmtNo: '2026-005', firstName: 'Jose', lastName: 'Batumbakal', position: 'Kagawad', birthdate: '2003-01-15', age: 23, gender: 'Male', status: 'Resigned' },
   ]);
 
-  // --- FILTERING LOGIC ---
+  // --- FILTERING ---
   const filteredBarangays = barangays.filter(b => {
     const matchesSearch = b.name.toLowerCase().includes(searchTerm.toLowerCase()) || b.chairman.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = brgyCategoryFilter === 'All' || b.category === brgyCategoryFilter;
@@ -102,7 +102,7 @@ const ProfilesView = () => {
   };
 
   return (
-    // MAIN CONTAINER (Added dark mode classes)
+    // MAIN CONTAINER
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-gray-100 dark:border-slate-800 p-8 h-full shadow-sm flex flex-col transition-colors duration-300">
       
       {/* --- HEADER --- */}
@@ -129,7 +129,7 @@ const ProfilesView = () => {
           )}
         </div>
 
-        {/* --- DYNAMIC ACTIONS & FILTER BUTTON --- */}
+        {/* --- ACTIONS & FILTER BUTTON --- */}
         <div className="flex gap-3">
           
           <div className="relative" ref={filterRef}>
@@ -209,7 +209,7 @@ const ProfilesView = () => {
             )}
           </div>
 
-          {/* Only show Add Profile if we are inside a Barangay view */}
+          {/* sShow Add Profile if we are inside a Barangay view */}
           {currentView === 'profiles' && (
             <button 
               onClick={() => handleAction('add')}

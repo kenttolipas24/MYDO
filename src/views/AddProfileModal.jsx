@@ -63,12 +63,6 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
     { name: "UTILIZATION", status: false }
   ];
 
-  // =========================================================
-  // Grid: 
-  // Full Name   | Birthdate
-  // SKMT Number | Gender
-  // Barangay    | Status
-  // =========================================================
   const RenderViewInterface = () => (
     <div className="grid grid-cols-2 gap-x-8 gap-y-6">
       {/* Row 1 */}
@@ -208,7 +202,7 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
         <div className="p-8 space-y-8 max-h-[80vh] overflow-y-auto">
           <div className="flex gap-10 items-start">
             
-            {/* Left Column: Avatar (Shared) */}
+            {/* Left Column: Avatar */}
             <div className="flex flex-col items-center gap-4">
               <input 
                 type="file" 
@@ -299,7 +293,6 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
         </div>
 
         {/* Footer */}
-        {/* Darkened the footer for both light/dark mode for consistent branding, but adjusted text colors for dark mode context */}
         <div className="px-8 py-4 bg-[#0D2440] dark:bg-slate-950 flex justify-between items-center transition-colors">
           <div className="flex items-center gap-2 text-[8px] font-bold text-white/30 dark:text-slate-500 uppercase tracking-[0.2em]">
             <div className={`w-1.5 h-1.5 rounded-full ${isAdd ? 'bg-emerald-400' : 'bg-blue-400'} animate-pulse`} />

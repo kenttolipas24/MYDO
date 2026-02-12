@@ -56,7 +56,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
         }
       `}</style>
 
-      {/* Invisible backdrop to close when clicking outside */}
+      {/* close when clicking outside */}
       <div className="fixed inset-0 z-[40]" onClick={onClose}></div>
 
       {/* MODAL CONTAINER with Custom Animation Class */}
