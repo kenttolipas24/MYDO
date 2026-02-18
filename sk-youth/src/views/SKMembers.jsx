@@ -78,7 +78,7 @@ const SKMembers = () => {
         {/* 2. TABS SECTION */}
         <div className="flex border-b border-gray-50 dark:border-slate-800 px-6 bg-gray-50/20 dark:bg-slate-900/50">
           <TabButton active={activeTab === 'active'} onClick={() => setActiveTab('active')} label="CURRENT COUNCIL" />
-          <TabButton active={activeTab === 'resigned'} onClick={() => setActiveTab('resigned')} label="RESIGNED HISTORY" />
+          <TabButton active={activeTab === 'resigned'} onClick={() => setActiveTab('resigned')} label="RESIGNED SK" />
         </div>
 
         {/* 3. TABLE SECTION */}

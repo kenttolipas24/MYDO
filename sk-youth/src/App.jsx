@@ -84,7 +84,7 @@ export default function App() {
             onClick={() => setActiveMenu('members')} 
           />
           
-          <MenuButton icon={FileText} label="Submissions" active={activeMenu === 'reports'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('reports')} />
+          <MenuButton icon={FileText} label="Reports" active={activeMenu === 'reports'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('reports')} />
         </nav>
         <div className="p-4 border-t border-gray-50 dark:border-slate-800 shrink-0">
           <button onClick={() => setIsSidebarShrinked(!isSidebarShrinked)} className="w-full flex items-center justify-center p-2 text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 rounded-lg transition-colors">

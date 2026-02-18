@@ -40,3 +40,32 @@
 .read-the-docs {
   color: #888;
 }
+
+@media print {
+  body {
+    background: white !important;
+    padding: 0 !important;
+  }
+  
+  /* Prevents tables from splitting awkwardly across pages */
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+
+  /* Ensures borders are crisp and visible in the PDF/Print */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+  
+  th, td {
+    border: 1pt solid black !important;
+  }
+
+  /* Hides the web UI elements during print */
+  .no-print {
+    display: none !important;
+  }
+}
