@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { X, Printer, BarChart3, Wallet, FileSpreadsheet } from 'lucide-react';
-// Ensure the path to KKProfilePrint is correct
 import { KKProfilePrint } from './KKProfilePrint'; 
 
 const GenerateReportModal = ({ isOpen, onClose }) => {
@@ -45,7 +44,7 @@ const GenerateReportModal = ({ isOpen, onClose }) => {
               </div>
               <div>
                 <div className="text-sm font-bold text-slate-800">Summary of KK Profile</div>
-                [cite_start]<div className="text-[10px] text-slate-400 font-medium tracking-tight">Auto-summarized demographics for official hard copy filing[cite: 7].</div>
+                <div className="text-[10px] text-slate-400 font-medium tracking-tight">Auto-summarized demographics for official hard copy filing[cite: 7].</div>
               </div>
             </div>
           </button>
