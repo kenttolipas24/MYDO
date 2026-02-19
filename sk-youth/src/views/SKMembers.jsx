@@ -3,11 +3,17 @@ import {
   UserPlus, UserMinus, MoreVertical, AlertCircle, 
   Shield, Eye, Edit2, History, X, FileText, Calendar 
 } from 'lucide-react';
+// Ensure this path matches your file structure
+import AddSKMemberModal from '../components/AddSKMemberModal';
 
 const SKMembers = () => {
   const [activeTab, setActiveTab] = useState('active');
   const [openMenuId, setOpenMenuId] = useState(null);
   const [isPastModalOpen, setIsPastModalOpen] = useState(false);
+  
+  // NEW STATE: Toggle the Add Member Modal
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  
   const menuRef = useRef(null);
 
   // --- MOCK DATA ---
@@ -33,12 +39,29 @@ const SKMembers = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // --- MEMBER ACTIONS ---
+  const handleAddMember = (formData) => {
+    const newMember = {
+      id: Date.now(),
+      name: formData.fullName.toUpperCase(), //
+      role: formData.designation,
+      status: 'active',
+      dateJoined: new Date(formData.registryDate).toLocaleDateString('en-US', { 
+        month: 'short', day: '2-digit', year: 'numeric' 
+      }).toUpperCase()
+    };
+    setMembers([newMember, ...members]);
+    setIsAddModalOpen(false);
+  };
+
   const handleResign = (id) => {
     setMembers(members.map(m => 
       m.id === id ? { 
         ...m, 
         status: 'resigned', 
-        dateResigned: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).toUpperCase() 
+        dateResigned: new Date().toLocaleDateString('en-US', { 
+          month: 'short', day: '2-digit', year: 'numeric' 
+        }).toUpperCase() 
       } : m
     ));
     setOpenMenuId(null);
@@ -49,10 +72,10 @@ const SKMembers = () => {
   return (
     <div className="max-w-6xl mx-auto py-8 animate-in fade-in duration-500">
       
-      {/* SINGLE UNIFIED CONTAINER */}
+      {/* MAIN CONTAINER */}
       <div className="bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col transition-colors">
         
-        {/* 1. HEADER SECTION (Inside Container) */}
+        {/* HEADER SECTION */}
         <div className="p-8 pb-6 border-b border-gray-50 dark:border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-6 bg-gray-50/10 dark:bg-slate-900/50">
           <div>
             <div className="flex items-center gap-3 mb-1">
@@ -69,19 +92,22 @@ const SKMembers = () => {
             >
               <History size={14} /> See Past SK Members
             </button>
-            <button className="flex items-center gap-2 bg-[#0D2440] dark:bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-blue-900/10">
-              <UserPlus size={12} /> Appoint Member
+            <button 
+              onClick={() => setIsAddModalOpen(true)} //
+              className="flex items-center gap-2 bg-[#0D2440] dark:bg-blue-600 px-6 py-2.5 rounded-full text-[10px] font-black text-white uppercase tracking-widest active:scale-95 transition-all shadow-xl shadow-blue-900/10"
+            >
+              <UserPlus size={12} /> Add Sk Member
             </button>
           </div>
         </div>
 
-        {/* 2. TABS SECTION */}
+        {/* TABS SECTION */}
         <div className="flex border-b border-gray-50 dark:border-slate-800 px-6 bg-gray-50/20 dark:bg-slate-900/50">
           <TabButton active={activeTab === 'active'} onClick={() => setActiveTab('active')} label="CURRENT COUNCIL" />
           <TabButton active={activeTab === 'resigned'} onClick={() => setActiveTab('resigned')} label="RESIGNED SK" />
         </div>
 
-        {/* 3. TABLE SECTION */}
+        {/* DATA TABLE SECTION */}
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -95,7 +121,7 @@ const SKMembers = () => {
             <tbody className="divide-y divide-gray-50 dark:divide-slate-800/50">
               {filteredMembers.length > 0 ? (
                 filteredMembers.map((member) => (
-                  <tr key={member.id} className={`${member.status === 'resigned' ? 'opacity-50 grayscale' : ''}`}>
+                  <tr key={member.id} className={`${member.status === 'resigned' ? 'opacity-50 grayscale' : ''} hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors`}>
                     <td className="px-10 py-7 text-sm font-black text-[#0D2440] dark:text-white tracking-tight uppercase">
                       {member.name}
                     </td>
@@ -159,7 +185,9 @@ const SKMembers = () => {
         </div>
       </div>
 
-      {/* 4. INTERNAL MODAL LAYER */}
+      {/* MODALS SECTION */}
+      
+      {/* Past Members Archive Modal */}
       {isPastModalOpen && (
         <div className="fixed inset-0 z-[10000] flex items-center justify-center p-6 bg-[#0D2440]/30 backdrop-blur-sm animate-in fade-in duration-300">
           <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-[2.5rem] shadow-2xl border border-white dark:border-slate-800 flex flex-col max-h-[85vh] overflow-hidden">
@@ -175,7 +203,6 @@ const SKMembers = () => {
                 <X size={20} />
               </button>
             </div>
-
             <div className="flex-1 overflow-y-auto p-8 space-y-4">
               {pastMembers.map((m) => (
                 <div key={m.id} className="p-6 border border-gray-50 dark:border-slate-800 rounded-3xl flex items-center justify-between group transition-all hover:bg-gray-50/50 dark:hover:bg-slate-800/50">
@@ -197,7 +224,6 @@ const SKMembers = () => {
                 </div>
               ))}
             </div>
-
             <div className="p-6 border-t border-gray-50 dark:border-slate-800 bg-gray-50/10 flex justify-end">
               <button onClick={() => setIsPastModalOpen(false)} className="px-8 py-3 bg-[#0D2440] dark:bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg">
                 Close Registry
@@ -206,6 +232,13 @@ const SKMembers = () => {
           </div>
         </div>
       )}
+
+      {/* NEW: Add SK Member Component */}
+      <AddSKMemberModal 
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onAdd={handleAddMember}
+      />
     </div>
   );
 };

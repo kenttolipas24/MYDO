@@ -83,27 +83,46 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
         <div className="p-8 overflow-y-auto">
           <div className="flex gap-8 items-start">
              
-             {/* Left Column: Avatar */}
-             <div className="flex flex-col items-center gap-4 shrink-0">
-               <input type="file" ref={fileInputRef} onChange={handleImageUpload} className="hidden" accept="image/*" />
-               <div onClick={triggerFileInput} className={`w-28 h-28 rounded-2xl overflow-hidden border-4 border-gray-50 dark:border-slate-800 shadow-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center group relative transition-colors ${!isView ? 'cursor-pointer' : ''}`}>
-                 {formData.image ? (
-                   <img src={formData.image} alt="Profile" className="w-full h-full object-cover" />
-                 ) : (
-                   <User size={32} className="text-gray-300 dark:text-slate-600" />
-                 )}
-                 {!isView && (
-                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                     <Camera size={16} className="text-white" />
-                   </div>
-                 )}
-               </div>
-             </div>
+            {/* Left Column: Avatar */}
+            <div className="flex flex-col items-center gap-4 shrink-0">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                className="hidden"
+                accept="image/*"
+              />
+            
+              <div
+                onClick={triggerFileInput}
+                className={`w-28 h-28 rounded-2xl overflow-hidden border-4 border-gray-50 dark:border-slate-800 shadow-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center group relative transition-all duration-200 ${!isView ? 'cursor-pointer hover:shadow-xl hover:border-blue-400/50' : ''}`}
+              >
+                {formData.image ? (
+                  <img
+                    src={formData.image}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User size={32} className="text-gray-300 dark:text-slate-600" />
+                )}
+            
+                {/* Hover text and icon */}
+                {!isView && (
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center transition-opacity duration-200">
+                    <Camera size={20} className="text-white mb-1" />
+                    <span className="text-white text-xs font-medium px-2 text-center">
+                      Choose profile
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
 
-             {/* Right Column: Form Fields */}
-             <div className="flex-1 space-y-6">
+            {/* Right Column: Form Fields */}
+            <div className="flex-1 space-y-6">
                 
-                {/* 1. PERSONAL INFO */}
+              {/* 1. PERSONAL INFO */}
                 <div className="space-y-4">
                   <h3 className="text-[10px] font-black text-gray-400 dark:text-slate-500 uppercase tracking-widest border-b border-gray-100 dark:border-slate-700 pb-2">Personal Information</h3>
                   <div className="grid grid-cols-2 gap-4">
@@ -142,8 +161,7 @@ const AddProfileModal = ({ isOpen, onClose, mode, initialData, onSave }) => {
                       <EditField label="Sitio / Purok" value={formData.purok} onChange={(v)=>setFormData({...formData, purok: v})} disabled={isDisabled} className="col-span-2" />
                   </div>
                 </div>
-
-             </div>
+              </div>
           </div>
         </div>
 
