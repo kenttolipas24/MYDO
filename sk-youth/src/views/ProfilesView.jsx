@@ -14,11 +14,8 @@ const ProfilesView = () => {
   const [modalMode, setModalMode] = useState('add');
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // --- 1. REAL DATA STATE ---
   const [profiles, setProfiles] = useState([]);
 
-  // --- 2. FETCH REAL DATA FROM SUPABASE ---
   useEffect(() => {
     fetchProfiles();
   }, []);
@@ -28,7 +25,6 @@ const ProfilesView = () => {
     const { data, error } = await supabase
       .from('youth_profiles') 
       .select('*')
-      // Automatically hide anyone 31 and older
       .lt('age', 31) 
       .order('created_at', { ascending: false });
 
@@ -40,7 +36,6 @@ const ProfilesView = () => {
     setLoading(false);
   };
 
-  // --- 3. YOUTH CLASSIFICATION HELPER ---
   const getAgeGroup = (age) => {
     const numAge = parseInt(age);
     if (numAge >= 15 && numAge <= 17) return "CHILD YOUTH (15-17)";
@@ -49,7 +44,6 @@ const ProfilesView = () => {
     return "OUT OF RANGE";
   };
 
-  // --- 4. DELETE LOGIC ---
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this record? This cannot be undone.")) {
       const { error } = await supabase
@@ -76,7 +70,6 @@ const ProfilesView = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // --- EXCEL EXPORT (Updated with Age Group labels) ---
   const exportToExcel = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Youth Profile');
@@ -117,7 +110,7 @@ const ProfilesView = () => {
     });
 
     profiles.forEach((p, index) => {
-      const row = worksheet.addRow({
+      worksheet.addRow({
         no: index + 1,
         region: p.region,
         province: p.province,
@@ -129,28 +122,73 @@ const ProfilesView = () => {
         sex: p.sex === 'Male' ? 'M' : 'F',
         civilStatus: p.civil_status,
         youthClass: p.youth_class,
-        ageGroup: getAgeGroup(p.age), // Added calculation here
+        ageGroup: getAgeGroup(p.age),
         email: p.email,
         contact: p.contact,
         purok: p.purok,
         education: p.education,
         workStatus: p.work_status
-      });
-      row.eachCell((cell) => {
+      }).eachCell((cell) => {
         cell.alignment = { vertical: 'middle', horizontal: 'left' };
         cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } };
       });
     });
 
+    const lastRow = worksheet.lastRow.number;
+    const signatureRowStart = lastRow + 3;
+
+    worksheet.getCell(`B${signatureRowStart}`).value = 'Prepared by:';
+    worksheet.getCell(`B${signatureRowStart}`).font = { italic: true };
+    worksheet.getCell(`B${signatureRowStart + 3}`).value = 'NAME OF SECRETARY';
+    worksheet.getCell(`B${signatureRowStart + 3}`).font = { bold: true };
+    worksheet.getCell(`B${signatureRowStart + 3}`).border = { bottom: { style: 'thin' } };
+    worksheet.getCell(`B${signatureRowStart + 4}`).value = 'SK Secretary';
+    worksheet.getCell(`B${signatureRowStart + 4}`).alignment = { horizontal: 'center' };
+    worksheet.getCell(`L${signatureRowStart}`).value = 'Approved by:';
+    worksheet.getCell(`L${signatureRowStart}`).font = { italic: true };
+    worksheet.getCell(`L${signatureRowStart + 3}`).value = 'NAME OF CHAIRMAN';
+    worksheet.getCell(`L${signatureRowStart + 3}`).font = { bold: true };
+    worksheet.getCell(`L${signatureRowStart + 3}`).border = { bottom: { style: 'thin' } };
+    worksheet.getCell(`L${signatureRowStart + 4}`).value = 'SK Chairman';
+    worksheet.getCell(`L${signatureRowStart + 4}`).alignment = { horizontal: 'center' };
+
     const buffer = await workbook.xlsx.writeBuffer();
     saveAs(new Blob([buffer]), `Catarman_KK_Profile_Output.xlsx`);
   };
 
-  const handleAction = (mode, profile = null) => {
+  // handleAction now fetches fresh data from DB before opening modal
+  const handleAction = async (mode, profile = null) => {
+    if (profile && (mode === 'edit' || mode === 'view')) {
+      const { data, error } = await supabase
+        .from('youth_profiles')
+        .select('*')
+        .eq('id', profile.id)
+        .single();
+
+      if (!error && data) {
+        setSelectedProfile(data);
+      } else {
+        setSelectedProfile(profile);
+      }
+    } else {
+      setSelectedProfile(null);
+    }
+
     setModalMode(mode);
-    setSelectedProfile(profile);
     setIsModalOpen(true);
     setOpenMenuId(null);
+  };
+
+  // onSave re-fetches the full list AND updates selectedProfile with latest data
+  const handleSave = async () => {
+    await fetchProfiles();
+    setIsModalOpen(false);
+  };
+
+  // onClose also refreshes so list stays in sync
+  const handleClose = async () => {
+    await fetchProfiles();
+    setIsModalOpen(false);
   };
 
   const toggleMenu = (id, e) => {
@@ -177,7 +215,6 @@ const ProfilesView = () => {
           <p className="text-xs text-[#7BA4D0] dark:text-slate-400 transition-colors">Master Database • {profiles.length} Total Records</p>
         </div>
         <div className="flex gap-2">
-          {/* REFRESH BUTTON */}
           <button onClick={fetchProfiles} className="p-2 bg-gray-50 dark:bg-slate-800 text-gray-500 rounded-lg hover:text-blue-500 transition-colors" title="Refresh List">
             <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
           </button>
@@ -221,9 +258,9 @@ const ProfilesView = () => {
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-slate-800/50 uppercase">
             {loading ? (
-                <tr>
-                    <td colSpan="11" className="py-20 text-center text-xs font-bold text-gray-400 animate-pulse">Loading Database...</td>
-                </tr>
+              <tr>
+                <td colSpan="11" className="py-20 text-center text-xs font-bold text-gray-400 animate-pulse">Loading Database...</td>
+              </tr>
             ) : filteredProfiles.length > 0 ? (
               filteredProfiles.map((profile, index) => (
                 <tr key={profile.id} className="hover:bg-blue-50/30 dark:hover:bg-slate-800/50 transition-colors h-10">
@@ -288,13 +325,13 @@ const ProfilesView = () => {
         </div>
       )}
 
-      {/* ADD/EDIT MODAL */}
+      {/* ADD/EDIT/VIEW MODAL */}
       <AddProfileModal 
         isOpen={isModalOpen} 
-        onClose={() => { setIsModalOpen(false); fetchProfiles(); }} 
+        onClose={handleClose}
         mode={modalMode} 
         initialData={selectedProfile} 
-        onSave={() => { setIsModalOpen(false); fetchProfiles(); }} 
+        onSave={handleSave}
       />
     </div>
   );

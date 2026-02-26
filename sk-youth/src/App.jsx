@@ -5,13 +5,12 @@ import {
   User, 
   Home, 
   Users, 
-  UserCog, // Official Member icon
+  UserCog,
   FileText, 
   Menu 
 } from 'lucide-react';
 import mydoLogo from './assets/mydo logo.png'; 
 
-// --- IMPORTS ---
 import NotificationModal from './components/NotificationModal'; 
 import DashboardView from './views/DashboardView'; 
 import ProfilesView from './views/ProfilesView';
@@ -19,23 +18,16 @@ import SKMembers from './views/SKMembers';
 import ReportsView from './views/ReportsView';
 import SettingsModal from './components/SettingsModal';
 import UserSettingsModal from './components/UserSettingsModal';
-import AddProfileModal from './views/AddProfileModal'; 
 
 export default function App() {
   const [isSidebarShrinked, setIsSidebarShrinked] = useState(false);
   const [activeMenu, setActiveMenu] = useState('dashboard');
   
-  // MODAL STATES
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
   const [userSettingsTab, setUserSettingsTab] = useState('profile');
   const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // ADD PROFILE MODAL STATE
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [addModalMode, setAddModalMode] = useState('add');
-  const [selectedProfile, setSelectedProfile] = useState(null);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -49,12 +41,6 @@ export default function App() {
     setUserSettingsTab(tab);
     setIsUserSettingsOpen(true);
     setIsProfileOpen(false); 
-  };
-
-  const handleProfileAction = (mode, profile = null) => {
-    setAddModalMode(mode);
-    setSelectedProfile(profile);
-    setIsAddModalOpen(true);
   };
 
   return (
@@ -74,16 +60,7 @@ export default function App() {
         <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
           <MenuButton icon={Home} label="Dashboard" active={activeMenu === 'dashboard'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('dashboard')} />
           <MenuButton icon={Users} label="Youth Registry" active={activeMenu === 'youth'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('youth')} />
-          
-          {/* UPDATED SK MEMBERS ICON TO UserCog */}
-          <MenuButton 
-            icon={UserCog} 
-            label="SK Members" 
-            active={activeMenu === 'members'} 
-            collapsed={isSidebarShrinked} 
-            onClick={() => setActiveMenu('members')} 
-          />
-          
+          <MenuButton icon={UserCog} label="SK Members" active={activeMenu === 'members'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('members')} />
           <MenuButton icon={FileText} label="Reports" active={activeMenu === 'reports'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('reports')} />
         </nav>
         <div className="p-4 border-t border-gray-50 dark:border-slate-800 shrink-0">
@@ -121,13 +98,13 @@ export default function App() {
 
         <div className="flex-1 overflow-y-auto p-8 pt-0">
           {activeMenu === 'dashboard' && <DashboardView />}
-          {activeMenu === 'youth' && <ProfilesView onAction={handleProfileAction} />}
+          {activeMenu === 'youth' && <ProfilesView />}
           {activeMenu === 'members' && <SKMembers />}
           {activeMenu === 'reports' && <ReportsView />}
         </div>
       </main>
 
-      {/* --- 3. THE MASTER LAYER --- */}
+      {/* 3. OVERLAYS LAYER */}
       <div className="fixed inset-0 pointer-events-none z-[9999]">
         {isNotifOpen && (
           <div className="absolute top-20 right-24 pointer-events-auto">
@@ -139,9 +116,9 @@ export default function App() {
             <SettingsModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} onOpenSettings={handleOpenSettings} />
           </div>
         )}
+        {/* AddProfileModal from here */}
         <div className="pointer-events-auto">
-            <AddProfileModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} mode={addModalMode} initialData={selectedProfile} onSave={() => setIsAddModalOpen(false)} />
-            <UserSettingsModal isOpen={isUserSettingsOpen} onClose={() => setIsUserSettingsOpen(false)} initialTab={userSettingsTab} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+          <UserSettingsModal isOpen={isUserSettingsOpen} onClose={() => setIsUserSettingsOpen(false)} initialTab={userSettingsTab} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         </div>
       </div>
     </div>

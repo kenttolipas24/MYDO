@@ -14,12 +14,12 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
       {/* ==================== PAGE 1 ==================== */}
 
       {/* HEADER */}
-      <div className="text-center mb-4 print:mb-3">
+      <div className="text-center mb-4 print:mb-1">
         <p className="text-[9.5pt] leading-none">Republic of the Philippines</p>
         <p className="text-[9.5pt] leading-none">Province of Northern Samar</p>
         <p className="text-[9.5pt] leading-none">Municipality of Catarman</p>
         <p className="font-bold text-[10.5pt] mt-2 leading-tight">
-          BARANGAY <span className="border-b border-black px-8">OLD RIZAL</span>
+          BARANGAY <span className="border-b border-black px-2">OLD RIZAL</span>
         </p>
         <p className="text-[9pt] mt-1">-oOo-</p>
         <p className="font-bold text-[11pt] mt-2 uppercase tracking-wide">
@@ -70,7 +70,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
         <table className="w-full border-collapse border border-black text-[9.8pt] text-center">
           <thead>
             <tr className="font-bold">
-              <th className="border py-1 px-2">SEX</th>
+              <th className="border py-1 px-2 text-left">SEX</th>
               <th className="border py-1 px-1">15-17</th>
               <th className="border py-1 px-1">18-24</th>
               <th className="border py-1 px-1">25-30</th>
@@ -80,7 +80,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
           <tbody>
             <tr><td className="border py-1 px-2 text-left">Male</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
             <tr><td className="border py-1 px-2 text-left">Female</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
-            <tr className="font-bold"><td className="border py-1 px-2 uppercase">TOTAL</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
+            <tr className="font-bold"><td className="border py-1 px-2 uppercase text-left">TOTAL</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
           </tbody>
         </table>
       </section>
@@ -91,7 +91,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
         <table className="w-full border-collapse border border-black text-[10pt] text-center">
           <thead>
             <tr className="font-bold">
-              <th className="border py-1 px-2">SEX</th>
+              <th className="border py-1 px-2 text-left">SEX</th>
               <th className="border py-1 px-1">15</th>
               <th className="border py-1 px-1">16</th>
               <th className="border py-1 px-1">17</th>
@@ -101,7 +101,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
           <tbody>
             <tr><td className="border py-1 px-2 text-left">Male</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
             <tr><td className="border py-1 px-2 text-left">Female</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
-            <tr className="font-bold"><td className="border py-1 px-2 uppercase">TOTAL</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
+            <tr className="font-bold"><td className="border py-1 px-2 uppercase text-left">TOTAL</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td></tr>
           </tbody>
         </table>
       </section>
@@ -112,7 +112,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
         <table className="w-full border-collapse border border-black text-[9.5pt] text-center">
           <thead>
             <tr className="font-bold">
-              <th className="border py-1 px-2">SEX</th>
+              <th className="border py-1 px-2 text-left">SEX</th>
               <th className="border py-1 px-1">18</th>
               <th className="border py-1 px-1">19</th>
               <th className="border py-1 px-1">20</th>
@@ -135,7 +135,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
               <td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td>
             </tr>
             <tr className="font-bold">
-              <td className="border py-1 px-2 uppercase">TOTAL</td>
+              <td className="border py-1 px-2 uppercase text-left">TOTAL</td>
               <td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td>
               <td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td>
             </tr>
@@ -143,8 +143,61 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
         </table>
       </section>
 
+      {/* YOUNG ADULT */}
+      <section className="mb-3 print:mb-2">
+        <h3 className="font-bold text-[10pt] mb-1 uppercase">YOUNG ADULT</h3>
+        <table className="w-full border-collapse border border-black text-[9.5pt] text-center">
+          <thead>
+            <tr className="font-bold">
+              <th className="border py-1 px-2 text-left">SEX</th>
+              <th className="border py-1 px-1">25</th>
+              <th className="border py-1 px-1">26</th>
+              <th className="border py-1 px-1">27</th>
+              <th className="border py-1 px-1">28</th>
+              <th className="border py-1 px-1">29</th>
+              <th className="border py-1 px-1">30</th>
+              <th className="border py-1 px-2">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border py-1 px-2 text-left">Male</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+            </tr>
+            <tr>
+              <td className="border py-1 px-2 text-left">Female</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+            </tr>
+            <tr className="font-bold bg-gray-50/50">
+              <td className="border py-1 px-2 uppercase text-left">TOTAL</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+              <td className="border py-1">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      
+
       {/* CIVIL STATUS */}
-      <section className="mb-4 print:mb-2 print:page-break-after:always print:page-break-inside:avoid">
+      <section className="mb-4 print:mb-1 print:page-break-after:always print:page-break-inside:avoid">
         <h3 className="font-bold text-[10pt] mb-1 uppercase">CIVIL STATUS</h3>
         <table className="w-full border-collapse border border-black text-[9.5pt] text-center print:break-inside-avoid">
           <thead>
@@ -198,7 +251,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
       <div className="hidden print:block" style={{ height: '0.5in' }} />
 
       {/* EDUCATION BACKGROUND */}
-      <section className="mb-3 print:mb-2">
+      <section className="mb-3 print:mb-5">
         <h3 className="font-bold text-[10pt] mb-1 uppercase">EDUCATION BACKGROUND</h3>
         <table className="w-full border-collapse border border-black text-[9.5pt] text-center">
           <thead>
@@ -227,7 +280,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
       </section>
 
       {/* YOUTH CLASSIFICATION */}
-      <section className="mb-3 print:mb-2">
+      <section className="mb-3 print:mb-5">
         <h3 className="font-bold text-[10pt] mb-1 uppercase">YOUTH CLASSIFICATION</h3>
         <table className="w-full border-collapse border border-black text-[9.5pt] text-center">
           <thead>
@@ -272,12 +325,12 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
       </section>
 
       {/* WORK STATUS */}
-      <section className="mb-4 print:mb-3">
+      <section className="mb-4 print:mb-5">
         <h3 className="font-bold text-[10pt] mb-1 uppercase">WORK STATUS</h3>
         <table className="w-full border-collapse border border-black text-[9.5pt] text-center">
           <thead>
             <tr className="font-bold">
-              <th className="border py-1 px-2">AGE GROUP</th>
+              <th className="border py-1 px-2 text-left">AGE GROUP</th>
               <th className="border py-1 px-1">Employed</th>
               <th className="border py-1 px-1">Unemployed</th>
               <th className="border py-1 px-1">Self-employed</th>
@@ -302,7 +355,7 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
               <td className="border py-1">0</td><td className="border py-1">0</td>
             </tr>
             <tr className="font-bold">
-              <td className="border py-1 px-2 uppercase">TOTAL</td>
+              <td className="border py-1 px-2 uppercase text-left">TOTAL</td>
               <td className="border py-1">0</td><td className="border py-1">0</td><td className="border py-1">0</td>
               <td className="border py-1">0</td><td className="border py-1">0</td>
             </tr>
@@ -310,8 +363,16 @@ export const KKProfilePrint = React.forwardRef((props, ref) => {
         </table>
       </section>
 
+      {/* ==================== PAGE BREAK ==================== */}
+      {/* <div className="print:block hidden" style={{ pageBreakAfter: 'always', height: 0 }} /> */}
+
+      {/* ==================== PAGE 3 ==================== */}
+
+      {/* top spacing */}
+      {/* <div className="hidden print:block" style={{ height: '0.5in' }} /> */}
+
       {/* SIGNATURE */}
-      <div className="mt-8 print:mt-10 text-left text-[10pt]">
+      <div className="mt-8 print:mt-5 text-left text-[10pt]">
         <p className="mb-4 italic text-[9.8pt]">
           I HEREBY CERTIFY that the information provided in this form is complete, true and correct to the best of my knowledge.
         </p>
