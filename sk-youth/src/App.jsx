@@ -9,7 +9,7 @@ import {
   FileText, 
   Menu 
 } from 'lucide-react';
-import mydoLogo from './assets/mydo logo.png'; 
+import mydoLogo from './assets/mydo-logo.png'; 
 
 import NotificationModal from './components/NotificationModal'; 
 import DashboardView from './views/DashboardView'; 

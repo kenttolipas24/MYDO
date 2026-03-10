@@ -4,7 +4,7 @@ import {
   Shield, Bell, Laptop, Key, CheckCircle2, 
   AlertCircle, Moon
 } from 'lucide-react';
-import mydoLogo from '../assets/mydo logo.png';
+import mydoLogo from '../assets/mydo-logo.png';
 
 const UserSettingsModal = ({ isOpen, onClose, initialTab = 'profile', isDarkMode, setIsDarkMode }) => {
   const [activeTab, setActiveTab] = useState(initialTab);

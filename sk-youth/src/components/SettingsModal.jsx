@@ -3,7 +3,7 @@ import {
   User, Settings, LogOut, FileClock, 
   ChevronRight 
 } from 'lucide-react';
-import mydoLogo from '../assets/mydo logo.png';
+import mydoLogo from '../assets/mydo-logo.png';
 
 // ADDED onOpenSettings to props
 const SettingsModal = ({ isOpen, onClose, onOpenSettings }) => {
