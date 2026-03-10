@@ -356,53 +356,53 @@ const SKMembers = () => {
   // ─────────────────────────────────────────────────────────────────────────────
 
   return (
-    <div className="p-6 animate-in fade-in duration-300">
+    <div className="p-6 min-h-screen bg-gray-50 dark:bg-slate-950 animate-in fade-in duration-300">
 
-      {/* ── PAGE HEADER ─────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between mb-6">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Shield size={13} className="text-[#7BA4D0]" />
-            <span className="text-[10px] font-bold tracking-[0.3em] text-[#7BA4D0] uppercase">Official Council Records</span>
-          </div>
-          <h1 className="text-2xl font-black text-[#0D2440] dark:text-white tracking-tight uppercase leading-tight">
-            Sangguniang Kabataan
-          </h1>
-          {termEnded && (
-            <div className="mt-2 flex items-center gap-1.5 text-red-500 text-[10px] font-bold uppercase animate-pulse">
-              <AlertCircle size={11} /> Term Expired — Records Archived
-            </div>
-          )}
-        </div>
-
-        {/* Action buttons */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
-          >
-            <Download size={13} />
-            Export Directory
-          </button>
-          <button
-            onClick={() => setIsPastModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 transition-all"
-          >
-            <History size={13} />
-            Past Members
-          </button>
-          <button
-            onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold bg-[#0D2440] text-white hover:bg-[#163560] transition-all"
-          >
-            <UserPlus size={13} />
-            Add SK Member
-          </button>
-        </div>
-      </div>
-
-      {/* ── CARD ─────────────────────────────────────────────────────── */}
+      {/* ── MAIN CARD wraps everything ───────────────────────────────── */}
       <div className="bg-white dark:bg-slate-900 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+
+        {/* ── PAGE HEADER ─────────────────────────────────────────── */}
+        <div className="flex items-start justify-between px-6 py-5 border-b border-gray-100 dark:border-slate-800">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <img src="/src/assets/philippines-sk-seeklogo.svg" alt="SK Logo" className="w-4 h-4" />
+              <span className="text-[10px] font-bold tracking-[0.3em] text-[#7BA4D0] uppercase">Official Council Records</span>
+            </div>
+            <h1 className="text-2xl font-black text-[#0D2440] dark:text-white tracking-tight uppercase leading-tight">
+              Sangguniang Kabataan
+            </h1>
+            {termEnded && (
+              <div className="mt-2 flex items-center gap-1.5 text-red-500 text-[10px] font-bold uppercase animate-pulse">
+                <AlertCircle size={11} /> Term Expired — Records Archived
+              </div>
+            )}
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex items-center gap-2 mt-1">
+            <button
+              onClick={handleExport}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:border-emerald-300 hover:text-emerald-600 hover:bg-emerald-50 transition-all"
+            >
+              <Download size={13} />
+              Export Directory
+            </button>
+            <button
+              onClick={() => setIsPastModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-gray-600 dark:text-slate-300 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50 transition-all"
+            >
+              <History size={13} />
+              Past Members
+            </button>
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[11px] font-semibold bg-[#0D2440] text-white hover:bg-[#163560] transition-all"
+            >
+              <UserPlus size={13} />
+              Add SK Member
+            </button>
+          </div>
+        </div>
 
         {/* Tabs */}
         <div className="flex border-b border-gray-100 dark:border-slate-800 px-4">
@@ -437,10 +437,18 @@ const SKMembers = () => {
                     {/* Name */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#0D2440]/10 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
-                          <span className="text-[11px] font-black text-[#0D2440] dark:text-white uppercase">
-                            {member.first_name?.[0]}{member.last_name?.[0]}
-                          </span>
+                        <div className="w-8 h-8 rounded-full bg-[#0D2440]/10 dark:bg-slate-700 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                          {member.image_url ? (
+                            <img
+                              src={member.image_url}
+                              alt={`${member.first_name} ${member.last_name}`}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-[11px] font-black text-[#0D2440] dark:text-white uppercase">
+                              {member.first_name?.[0]}{member.last_name?.[0]}
+                            </span>
+                          )}
                         </div>
                         <span className="text-sm font-semibold text-[#0D2440] dark:text-white uppercase">
                           {formatName(member)}
