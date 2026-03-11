@@ -65,7 +65,7 @@ const AddSKMemberModal = ({ isOpen, onClose, onAdd }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white dark:bg-slate-900 w-full max-w-3xl rounded-[2.5rem] shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300"
+        className="relative bg-white dark:bg-slate-900 w-full max-w-2xl rounded-[2rem] shadow-2xl border border-gray-100 dark:border-slate-800 overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ── HEADER ─────────────────────────────────────────────── */}

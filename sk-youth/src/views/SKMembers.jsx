@@ -1,44 +1,70 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
   UserPlus, UserMinus, MoreVertical, AlertCircle,
-  Shield, Eye, Edit2, History, Download
+  Shield, Eye, Edit2, History, Download, X 
 } from 'lucide-react';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { supabase } from '../supabaseClient';
-
-// ── Import actual logo images ────────────────────────────────────────
-// Place these files in src/assets/ (or public/assets/ if you prefer)
 import catarmanLogoSrc from '../assets/catarman-logo.jpg';
 import mydoLogoSrc from '../assets/mydo-logo.png';
-
 import AddSKMemberModal from '../components/AddSKMemberModal';
 import PastMembersModal from '../components/PastMembersModal';
 import MemberManagementModal from '../components/MemberManagementModal';
 
-// You might also want to add a ResignConfirmModal component
-// (shown as placeholder below — implement it or remove if not needed)
+// ── FIXED RESIGN MODAL ───────────────────────────────────────────────
 const ResignConfirmModal = ({ member, onConfirm, onClose }) => {
   if (!member) return null;
+
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-slate-800 rounded-xl p-6 max-w-md w-full mx-4">
-        <h3 className="text-lg font-semibold mb-4">Confirm Resignation</h3>
-        <p className="mb-6">
-          Are you sure you want to mark <strong>{member.name}</strong> as resigned?
-        </p>
-        <div className="flex justify-end gap-3">
+    <div
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-300"
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-white dark:bg-slate-900 w-full max-w-[500px] rounded-3xl shadow-2xl p-8 flex flex-col overflow-hidden animate-in zoom-in-95 duration-300"
+      >
+        {/* Header - No Border */}
+        <div className="flex justify-between items-start">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-[#0D2440] dark:text-white">
+              <UserMinus size={20} strokeWidth={2.5} />
+            </div>
+            <div className="flex flex-col justify-center">
+              <h2 className="text-sm font-black text-[#0D2440] dark:text-white uppercase tracking-wider leading-none mb-1.5">
+                Resign Official
+              </h2>
+              <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none">
+                Confirm Action
+              </p>
+            </div>
+          </div>
+          <button onClick={onClose} className="p-2 -mt-1 -mr-2 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 rounded-full transition-all">
+            <X size={20} strokeWidth={2.5} />
+          </button>
+        </div>
+
+        {/* Body - Centered Text */}
+        <div className="py-8 text-center px-4">
+          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase leading-[1.8] tracking-widest">
+            You are about to mark <span className="font-black text-[#0D2440] dark:text-white">{member.name || `${member.first_name} ${member.last_name}`}</span> as resigned. This action will immediately move their record to the Past Members archive.
+          </p>
+        </div>
+
+        {/* Footer - Full Width Buttons (Start to End) */}
+        <div className="flex w-full gap-3 pt-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700"
+            className="flex-1 flex justify-center items-center py-3.5 bg-[#888d94de] dark:bg-[#334155] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#94A3B8] dark:hover:bg-[#475569] transition-all active:scale-95 shadow-sm"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg hover:bg-red-700"
+            className="flex-1 flex justify-center items-center gap-2 py-3.5 bg-[#0D2440] text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg hover:opacity-90 active:scale-95 transition-all"
           >
-            Confirm Resign
+            <UserMinus size={14} strokeWidth={2.5} /> Confirm Resignation
           </button>
         </div>
       </div>
@@ -46,6 +72,7 @@ const ResignConfirmModal = ({ member, onConfirm, onClose }) => {
   );
 };
 
+// ── MAIN COMPONENT ───────────────────────────────────────────────────
 const SKMembers = () => {
   const [activeTab, setActiveTab] = useState('active');
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -178,17 +205,29 @@ const SKMembers = () => {
   const pastMembers = termEnded ? members : members.filter(m => m.status === 'resigned');
 
   // ─────────────────────────────────────────────────────────────
-  //                  EXPORT TO EXCEL (fixed version)
+  //                   EXPORT TO EXCEL
   // ─────────────────────────────────────────────────────────────
   const handleExport = async () => {
     const workbook = new ExcelJS.Workbook();
     const ws = workbook.addWorksheet('SK Directory');
 
     ws.columns = [
-      { width: 9.1 }, { width: 9.1 }, { width: 12 }, { width: 10 },
-      { width: 10 }, { width: 10 }, { width: 10 }, { width: 10 },
-      { width: 17 }, { width: 7.5 }, { width: 24 }, { width: 18.5 },
-      { width: 21 }, { width: 20.5 }, { width: 19.7 }, { width: 15.7 }
+      { width: 9.0 },   // A
+      { width: 9.0 },   // B
+      { width: 18 },    // C
+      { width: 18 },    // D
+      { width: 18 },    // E
+      { width: 18 },    // F
+      { width: 18 },    // G
+      { width: 18 },    // H   ← name area
+      { width: 22 },    // I   Birthday...
+      { width: 11 },    // J   Gender
+      { width: 26 },    // K   Email
+      { width: 18 },    // L   Contact
+      { width: 22 },    // M   PhilHealth
+      { width: 24 },    // N   Election/Appointment
+      { width: 22 },    // O   Assumption
+      { width: 18 }     // P   SKMT Control No.
     ];
 
     const GREY_FILL    = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF808080' } };
@@ -262,44 +301,41 @@ const SKMembers = () => {
 
     ws.mergeCells('A10:P10');
 
-    // ── Add logos using imported images ───────────────────────────────
-    const logoSize = 55; // pixels (~0.57in at 96dpi)
+    const logoSize = 55; 
 
-    // Catarman logo - left / center area
+    const getBase64FromUrl = async (url) => {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+        reader.readAsDataURL(blob);
+      });
+    };
+
+    const catarmanBase64 = await getBase64FromUrl(catarmanLogoSrc);
+    const mydoBase64     = await getBase64FromUrl(mydoLogoSrc);
+
     const catarmanId = workbook.addImage({
-      base64: await fetch(catarmanLogoSrc).then(r => r.blob()).then(b => {
-        return new Promise((res) => {
-          const reader = new FileReader();
-          reader.onload = () => res(reader.result.split(',')[1]);
-          reader.readAsDataURL(b);
-        });
-      }),
-      extension: 'png',
+      base64: catarmanBase64,
+      extension: 'jpg',
     });
 
     ws.addImage(catarmanId, {
-      tl: { col: 7.5, row: 0.2 },
+      tl: { col: 7.9, row: 0.18 },
       ext: { width: logoSize, height: logoSize }
     });
 
-    // MYDO logo - right side
     const mydoId = workbook.addImage({
-      base64: await fetch(mydoLogoSrc).then(r => r.blob()).then(b => {
-        return new Promise((res) => {
-          const reader = new FileReader();
-          reader.onload = () => res(reader.result.split(',')[1]);
-          reader.readAsDataURL(b);
-        });
-      }),
+      base64: mydoBase64,
       extension: 'png',
     });
 
     ws.addImage(mydoId, {
-      tl: { col: 11, row: 0.2 },
+      tl: { col: 10.8, row: 0.18 },
       ext: { width: logoSize, height: logoSize }
     });
 
-    // ── Table headers ────────────────────────────────────────────────
     sc(11, 1, 'POSITION/RANK', WHITE_BOLD, CENTER, DARK_FILL, BORDERS);
     ws.mergeCells('A11:B12');
     fillRange(11, 12, 1, 2, DARK_FILL, BORDERS);
@@ -313,12 +349,12 @@ const SKMembers = () => {
     fillRange(11, 11, 9, 16, DARK_FILL, BORDERS);
 
     const subHeaders = [
-      [9,  'Birthday (Spell-out the Month)', 9],
+      [9,  'Birthday (Spell-out the Month)', 7.5],
       [10, 'Gender',                         9],
       [11, 'Email',                          8],
       [12, 'Contact No.',                    9],
       [13, 'PhilHealth No.',                 8],
-      [14, 'Date of Election/Appointment',   8],
+      [14, 'Date of Election/Appointment',   7.5],
       [15, 'Date of Assumption',             8],
       [16, 'SKMT Control No.',               9],
     ];
@@ -332,7 +368,6 @@ const SKMembers = () => {
       );
     });
 
-    // ── Helper functions for sections ────────────────────────────────
     const sectionRow = (row, text) => {
       sc(row, 1, text || null, WHITE_BOLD_ITALIC, LEFT, GREY_FILL, BORDERS);
       ws.mergeCells(`A${row}:P${row}`);
@@ -369,7 +404,6 @@ const SKMembers = () => {
       });
     };
 
-    // ── Data layout ──────────────────────────────────────────────────
     const activeMembers = filteredMembers;
     const chairman    = activeMembers.find(m => /chair(man|person)/i.test(m.designation || ''));
     const secretary   = activeMembers.find(m => /secretary/i.test(m.designation || ''));
@@ -394,7 +428,6 @@ const SKMembers = () => {
 
     sectionRow(27);
 
-    // Signature lines
     sc(29, 1, 'Prepared by:', STD);
     ws.mergeCells('A29:E29');
 
@@ -413,7 +446,6 @@ const SKMembers = () => {
     sc(34, 11, 'SK Chairperson', STD, CENTER);
     ws.mergeCells('K34:L34');
 
-    // Generate file
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -519,7 +551,7 @@ const SKMembers = () => {
                 (activeTab === 'active' ? filteredMembers : pastMembers).map((member) => (
                   <tr
                     key={member.id}
-                    className={`hover:bg-gray-50 dark:hover:bg-slate-800/50 transition-colors ${
+                    className={`hover:bg-[#163560]/30 transition-colors ${
                       member.status === 'resigned' || termEnded ? 'opacity-40' : ''
                     }`}
                   >
