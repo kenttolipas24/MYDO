@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { 
-  FileText, Search, ChevronRight, 
-  FileCheck, Printer, History
+  Search, 
+  Printer, History, AlertCircle
 } from 'lucide-react';
 import GenerateReportModal from '../components/GenerateReportModal';
 
 const ReportsView = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const recentHistory = [
-    { name: "CBYDP 2026", freq: "Annual", date: "Feb 14, 2026", status: "Ready" },
-    { name: "KK Profiling Summary", freq: "Real-time", date: "Feb 14, 2026", status: "Ready" },
-    { name: "Q1 FPDP Compliance", freq: "Quarterly", date: "Jan 15, 2026", status: "Submitted" },
-    { name: "Jan Session Minutes", freq: "Monthly", date: "Jan 30, 2026", status: "Submitted" },
-  ];
+  // Replaced dummy data with an empty array representing the initial state.
+  // In the future, you will populate this via a Supabase fetch call.
+  const recentHistory = []; 
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-6 animate-in fade-in duration-500">
@@ -30,7 +27,7 @@ const ReportsView = () => {
 
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D2440] dark:bg-blue-600 text-white text-[11px] font-bold uppercase tracking-widest rounded-lg hover:opacity-90 transition-all shadow-md"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#0D2440] dark:bg-blue-600 text-white text-[11px] font-bold uppercase tracking-widest rounded-lg hover:opacity-90 transition-all shadow-md active:scale-95"
           >
             <Printer size={16} />
             Generate Report
@@ -48,13 +45,13 @@ const ReportsView = () => {
             <input 
               type="text" 
               placeholder="Search reports..." 
-              className="pl-9 pr-4 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none w-56" 
+              className="pl-9 pr-4 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs outline-none w-56 focus:border-blue-500 transition-colors" 
             />
           </div>
         </div>
 
         {/* DATA TABLE */}
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[300px] flex flex-col">
           <table className="w-full text-left">
             <thead className="bg-slate-50/50 dark:bg-slate-800/50 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 dark:border-slate-800">
               <tr>
@@ -65,33 +62,27 @@ const ReportsView = () => {
                 <th className="px-6 py-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {recentHistory.map((doc, i) => (
-                <tr key={i} className="hover:bg-slate-50/30 dark:hover:bg-slate-800/30 transition-colors group">
-                  <td className="px-6 py-5 font-bold text-slate-700 dark:text-slate-200 text-sm">
-                    <div className="flex items-center gap-3">
-                      <FileText size={16} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
-                      {doc.name}
-                    </div>
-                  </td>
-                  <td className="px-6 py-5 text-xs font-semibold text-slate-500 uppercase tracking-tighter">{doc.freq}</td>
-                  <td className="px-6 py-5 text-xs text-slate-400 tabular-nums">{doc.date}</td>
-                  <td className="px-6 py-5">
-                    <span className={`text-[9px] font-bold px-2 py-0.5 rounded border ${
-                      doc.status === 'Ready' ? 'bg-blue-50 text-blue-700 border-blue-100' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
-                    }`}>
-                      {doc.status.toUpperCase()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-5 text-right">
-                    <button className="text-slate-300 hover:text-blue-600 transition-colors">
-                      <ChevronRight size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            
+            {/* Render rows only if data exists */}
+            {recentHistory.length > 0 && (
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {/* Future mapping logic goes here */}
+              </tbody>
+            )}
           </table>
+
+          {/* EMPTY STATE */}
+          {recentHistory.length === 0 && (
+            <div className="flex-1 flex flex-col items-center justify-center p-12 text-center text-slate-400">
+              <AlertCircle size={32} strokeWidth={1.5} className="mb-3 opacity-50" />
+              <h3 className="text-sm font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wide mb-1">
+                No Reports Generated
+              </h3>
+              <p className="text-[11px] font-medium max-w-sm mx-auto tracking-wide">
+                There is no filing history available. Click the "Generate Report" button above to create your first automated document.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
