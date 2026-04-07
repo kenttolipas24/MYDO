@@ -6,8 +6,12 @@ import {
   Home, 
   Users, 
   UserCog,
-  FileText, 
-  Menu 
+  FileText,
+  Wallet,
+  Menu,
+  ChevronDown,
+  LayoutDashboard,
+  PenLine
 } from 'lucide-react';
 import mydoLogo from './assets/mydo-logo.png'; 
 
@@ -16,18 +20,46 @@ import DashboardView from './views/DashboardView';
 import ProfilesView from './views/ProfilesView';
 import SKMembers from './views/SKMembers'; 
 import ReportsView from './views/ReportsView';
+import UtilizationView from './views/UtilizationView';
+import UpdateFundsView from './views/UpdateFundsView';
 import SettingsModal from './components/SettingsModal';
 import UserSettingsModal from './components/UserSettingsModal';
 
 export default function App() {
   const [isSidebarShrinked, setIsSidebarShrinked] = useState(false);
   const [activeMenu, setActiveMenu] = useState('dashboard');
-  
+  const [activeSubMenu, setActiveSubMenu] = useState('overview');
+  const [isUtilizationOpen, setIsUtilizationOpen] = useState(false);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [isUserSettingsOpen, setIsUserSettingsOpen] = useState(false);
   const [userSettingsTab, setUserSettingsTab] = useState('profile');
   const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const [fundsData, setFundsData] = useState({
+    year: new Date().getFullYear().toString(),
+    region: 'REGION VIII (EASTERN VISAYAS)',
+    province: 'NORTHERN SAMAR',
+    city: 'CATARMAN',
+    barangay: 'OLD RIZAL',
+    utilizedSKFunds: 'YES',
+    totalSKFunds: 0,
+    expenses: [
+      { category: 'GAP - PS', amount: 0 },
+      { category: 'GAP - MOOE and CO', amount: 0 },
+      { category: 'Governance', amount: 0 },
+      { category: 'Active Citizenship', amount: 0 },
+      { category: 'Economic Empowerment and Global Mobility', amount: 0 },
+      { category: 'Agriculture', amount: 0 },
+      { category: 'Environment', amount: 0 },
+      { category: 'Peace-Building and Security', amount: 0 },
+      { category: 'Social Inclusion and Equity', amount: 0 },
+      { category: 'Health', amount: 0 },
+      { category: 'Sports Development', amount: 0 },
+      { category: 'Education', amount: 0 }
+    ]
+  });
 
   useEffect(() => {
     if (isDarkMode) {
@@ -37,11 +69,37 @@ export default function App() {
     }
   }, [isDarkMode]);
 
+  useEffect(() => {
+    if (isSidebarShrinked) setIsUtilizationOpen(false);
+  }, [isSidebarShrinked]);
+
   const handleOpenSettings = (tab) => {
     setUserSettingsTab(tab);
     setIsUserSettingsOpen(true);
     setIsProfileOpen(false); 
   };
+
+  const handleUtilizationClick = () => {
+    if (isSidebarShrinked) {
+      setActiveMenu('utilization');
+      setActiveSubMenu('overview');
+      return;
+    }
+    if (activeMenu !== 'utilization') {
+      setActiveMenu('utilization');
+      setActiveSubMenu('overview');
+      setIsUtilizationOpen(true);
+    } else {
+      setIsUtilizationOpen(!isUtilizationOpen);
+    }
+  };
+
+  const handleSubMenuClick = (sub) => {
+    setActiveSubMenu(sub);
+    setActiveMenu('utilization');
+  };
+
+  const isUtilizationActive = activeMenu === 'utilization';
 
   return (
     <div className="h-screen bg-gray-50 dark:bg-slate-900 flex overflow-hidden font-sans relative">
@@ -57,12 +115,54 @@ export default function App() {
             </div>
           )}
         </div>
+
         <nav className="flex-1 py-6 px-3 space-y-1 overflow-y-auto">
           <MenuButton icon={Home} label="Dashboard" active={activeMenu === 'dashboard'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('dashboard')} />
           <MenuButton icon={Users} label="Youth Registry" active={activeMenu === 'youth'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('youth')} />
           <MenuButton icon={UserCog} label="SK Members" active={activeMenu === 'members'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('members')} />
+          
+          {/* FUND UTILIZATION WITH DROPDOWN */}
+          <div>
+            <button
+              onClick={handleUtilizationClick}
+              className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group relative
+                ${isUtilizationActive
+                  ? 'bg-[#0D2440] dark:bg-blue-600 text-white shadow-lg shadow-blue-900/20'
+                  : 'text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-[#0D2440]'
+                }`}
+            >
+              <Wallet className={`w-5 h-5 flex-shrink-0 ${isUtilizationActive ? 'text-white' : 'text-gray-400 group-hover:text-[#0D2440] dark:group-hover:text-white'}`} />
+              {!isSidebarShrinked && (
+                <>
+                  <span className="font-bold text-xs tracking-wide flex-1 text-left">Fund Utilization</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-200 ${isUtilizationOpen ? 'rotate-180' : ''} ${isUtilizationActive ? 'text-white/70' : 'text-gray-300'}`}
+                  />
+                </>
+              )}
+            </button>
+
+            {!isSidebarShrinked && isUtilizationOpen && (
+              <div className="mt-1 ml-3 pl-5 border-l-2 border-slate-100 dark:border-slate-800 space-y-0.5 animate-in slide-in-from-top-1 duration-200">
+                <SubMenuButton
+                  icon={LayoutDashboard}
+                  label="Overview"
+                  active={isUtilizationActive && activeSubMenu === 'overview'}
+                  onClick={() => handleSubMenuClick('overview')}
+                />
+                <SubMenuButton
+                  icon={PenLine}
+                  label="Update Funds"
+                  active={isUtilizationActive && activeSubMenu === 'update'}
+                  onClick={() => handleSubMenuClick('update')}
+                />
+              </div>
+            )}
+          </div>
+
           <MenuButton icon={FileText} label="Reports" active={activeMenu === 'reports'} collapsed={isSidebarShrinked} onClick={() => setActiveMenu('reports')} />
         </nav>
+
         <div className="p-4 border-t border-gray-50 dark:border-slate-800 shrink-0">
           <button onClick={() => setIsSidebarShrinked(!isSidebarShrinked)} className="w-full flex items-center justify-center p-2 text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-800 rounded-lg transition-colors">
             <Menu size={20} />
@@ -100,6 +200,19 @@ export default function App() {
           {activeMenu === 'dashboard' && <DashboardView />}
           {activeMenu === 'youth' && <ProfilesView />}
           {activeMenu === 'members' && <SKMembers />}
+          {activeMenu === 'utilization' && activeSubMenu === 'overview' && (
+            <UtilizationView />
+          )}
+          {activeMenu === 'utilization' && activeSubMenu === 'update' && (
+            <UpdateFundsView 
+              currentData={fundsData} 
+              onSave={(updated) => {
+                setFundsData(updated);
+                setActiveSubMenu('overview');
+              }}
+              onCancel={() => setActiveSubMenu('overview')}
+            />
+          )}
           {activeMenu === 'reports' && <ReportsView />}
         </div>
       </main>
@@ -116,7 +229,6 @@ export default function App() {
             <SettingsModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} onOpenSettings={handleOpenSettings} />
           </div>
         )}
-        {/* AddProfileModal from here */}
         <div className="pointer-events-auto">
           <UserSettingsModal isOpen={isUserSettingsOpen} onClose={() => setIsUserSettingsOpen(false)} initialTab={userSettingsTab} isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
         </div>
@@ -129,5 +241,19 @@ const MenuButton = ({ icon: Icon, label, active, collapsed, onClick }) => (
   <button onClick={onClick} className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group relative ${active ? 'bg-[#0D2440] dark:bg-blue-600 text-white shadow-lg shadow-blue-900/20' : 'text-gray-500 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-[#0D2440]'}`}>
     <Icon className={`w-5 h-5 flex-shrink-0 ${active ? 'text-white' : 'text-gray-400 group-hover:text-[#0D2440] dark:group-hover:text-white'}`} />
     {!collapsed && <span className="font-bold text-xs tracking-wide">{label}</span>}
+  </button>
+);
+
+const SubMenuButton = ({ icon: Icon, label, active, onClick }) => (
+  <button
+    onClick={onClick}
+    className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all duration-150 group
+      ${active
+        ? 'bg-[#0D2440]/8 text-[#0D2440] dark:text-white dark:bg-slate-800'
+        : 'text-slate-400 hover:text-[#0D2440] dark:hover:text-white hover:bg-gray-50 dark:hover:bg-slate-800/50'
+      }`}
+  >
+    <Icon className={`w-3.5 h-3.5 flex-shrink-0 ${active ? 'text-[#0D2440] dark:text-white' : 'text-slate-300 group-hover:text-[#0D2440] dark:group-hover:text-white'}`} />
+    <span className={`text-[11px] font-bold tracking-wide ${active ? 'text-[#0D2440] dark:text-white' : ''}`}>{label}</span>
   </button>
 );
